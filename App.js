@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
+import { useFonts } from 'expo-font';
+
 import DiaryStack from "./src/routes/DiaryStack";
 import RecipeStack from "./src/routes/RecipeStack";
 import PluseStack from "./src/routes/PluseStack";
@@ -13,9 +15,31 @@ import colors from "./src/config/colors";
 
 const Tab = createBottomTabNavigator();
 
+const MyTheme = {
+  dark: false,
+  colors: {
+    primary: colors.green,
+    background: '#fff',
+    card: '#fff',
+    text: colors.grey,
+    border: 'rgb(199, 199, 204)',
+    notification: 'rgb(255, 69, 58)',
+  },
+};
+
 export default function App() {
+  const [loaded] = useFonts({
+    NunitoBold: require('./assets/fonts/Nunito-Bold.ttf'),
+    NunitoSemiBold: require('./assets/fonts/Nunito-SemiBold.ttf'),
+    NunitoRegular: require('./assets/fonts/Nunito-Regular.ttf'),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={ MyTheme }>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
@@ -41,7 +65,12 @@ export default function App() {
 
           tabBarStyle: {
             elevation: 0,
-            borderTopWidth: 0
+            borderTopWidth: 0,
+            
+          },
+
+          tabBarLabelStyle: {
+            fontFamily: 'NunitoRegular',
           }
         })}
       >

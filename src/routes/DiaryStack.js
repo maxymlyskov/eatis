@@ -6,13 +6,15 @@ import { getHeaderTitle } from '@react-navigation/elements';
 
 import DiaryScreen from '../screens/DiaryScreen';
 
+import Screen from '../components/Screen';
+
 const Stack = createNativeStackNavigator();
 
 function MyHeader({title, style}) {
   return (
-    <View style={style}>
-      <Text>{title}</Text>
-    </View>
+    <Screen style={style}>
+
+    </Screen>
   );
 }
 
@@ -27,12 +29,12 @@ export default function DiaryStack() {
         },
 
         headerStyle: {
-          height: 80,
-          justifyContent: 'center'
+          flex: 0.07,
+          justifyContent: 'center',
         },
       })}
     >
-      <Stack.Screen name="DiaryScreen" component={DiaryScreen} />
+      <Stack.Screen name="MyDiary" component={DiaryScreen} />
     </Stack.Navigator>
   );
 }
