@@ -7,10 +7,11 @@ import {
 } from 'react-native';
 
 import CircularProgress from 'react-native-circular-progress-indicator';
+import InfoItem from "./InfoItem";
+import LeftStatistic from "./LeftStatistic";
 
 import colors from "../../config/colors";
 import fonts from "../../styles/fonts";
-import InfoItem from "./InfoItem";
 
 export default function InfoCard() {
   return (
@@ -18,27 +19,17 @@ export default function InfoCard() {
       <View style={styles.card}>
         <View style={styles.statistic}>
           <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-            <View style={styles.container}>
-              <Image 
+            <LeftStatistic 
               source={require('../../../assets/imgs/cookies.png')}
-              style={styles.image}
-              />
-              <View style={styles.textContainer}>
-                <Text style={fonts.semiBold14Grey}>Eaten</Text>
-                <Text style={fonts.semiBold18}>1124</Text>
-              </View>
-            </View>
+              title="Eaten"
+              statisticText="1124"
+            />
 
-            <View style={styles.container}>
-              <Image 
+            <LeftStatistic 
               source={require('../../../assets/imgs/cardio.png')}
-              style={styles.image}
-              />
-              <View style={styles.textContainer}>
-                <Text style={fonts.semiBold14Grey}>Burned</Text>
-                <Text style={fonts.semiBold18}>281</Text>
-              </View>
-            </View>
+              title="Burned"
+              statisticText="281"
+            />
           </View>
 
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
@@ -47,11 +38,11 @@ export default function InfoCard() {
               maxValue={2026}
               textColor={colors.green}
               textStyle={fonts.Bold24}
-              titleStyle={fonts.semiBold14Grey}
+              titleStyle={[ fonts.semiBold14, {color: colors.grey} ]}
               titleColor={colors.grey}
               title={'kcal eaten'}
 
-              radius={70}
+              radius={65}
 
               inActiveStrokeColor={colors.green}
               inActiveStrokeOpacity={0.1}
@@ -61,7 +52,7 @@ export default function InfoCard() {
 
         {/* Protein, Card, Fat - Info */}
 
-        <View style={{ flex: .3, flexDirection: 'row', marginTop: 10 }}>
+        <View style={{ flex: .3, flexDirection: 'row' }}>
           <View style={{flex: 1}}>
             <InfoItem title={"Protein"} max={55} eaten={40} />
           </View>
@@ -74,6 +65,8 @@ export default function InfoCard() {
         </View>
 
       </View>
+
+      {/* shadow */}
       <View style={{
         position: 'absolute',
         width: '100%',
@@ -87,7 +80,7 @@ export default function InfoCard() {
         backgroundColor: '#000',
         elevation: 25,
         borderRadius: 20,
-        opacity: 0.5
+        opacity: 0.3
         }}
         />
       </View>
@@ -108,22 +101,5 @@ const styles = StyleSheet.create({
   statistic: {
     flex: .7,
     flexDirection: 'row',
-  },
-
-  container: {
-    flex: 1, 
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  textContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingLeft: 10
-  },
-
-  image: {
-    width: 32,
-    height: 32
   }
 })
