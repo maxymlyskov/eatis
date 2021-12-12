@@ -26,7 +26,7 @@ export default function InfoItem({title, max, eaten}) {
         />
       </View>
 
-      <Text style={[fonts.semiBold14Grey, , {textAlign: 'center'}]}>{ calcul(max, eaten) + " left" }</Text>
+      <Text style={[fonts.semiBold1 , {color: colors.grey, textAlign: 'center'}]}>{ calcul(max, eaten) + " left" }</Text>
 
     </View>
   );

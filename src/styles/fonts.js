@@ -1,8 +1,5 @@
-import colors from "../config/colors"
-
 export default {
   Bold18: {
-    color: '#000',
     fontFamily: 'NunitoBold',
     fontSize: 18
   },
@@ -12,8 +9,7 @@ export default {
     fontSize: 24
   },
 
-  semiBold14Grey: {
-    color: colors.grey,
+  semiBold14: {
     fontFamily: 'NunitoSemiBold',
     fontSize: 14
   },
@@ -21,5 +17,10 @@ export default {
   semiBold18: {
     fontFamily: 'NunitoSemiBold',
     fontSize: 18
+  },
+
+  Regular14: {
+    fontFamily: 'NunitoRegular',
+    fontSize: 14
   }
 }
