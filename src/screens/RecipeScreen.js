@@ -16,7 +16,7 @@ const preFilters = [
   { id: 3, title: "Plan" },
 ];
 
-export default function RecipeScreen() {
+export default function RecipeScreen({ navigation }) {
   const [count, setCount] = React.useState();
   const { data, isLoading, error } = useGetSearchQuery("chicken");
 
@@ -24,7 +24,7 @@ export default function RecipeScreen() {
   console.log(data);
   return (
     <Screen style={{ backgroundColor: "white" }}>
-      <RecipeHeader />
+      <RecipeHeader onPressSearch={() => navigation.navigate("SearchScreen")} />
       <View style={styles.header}>
         <Text style={extraStyles.title}>Recipes</Text>
       </View>
