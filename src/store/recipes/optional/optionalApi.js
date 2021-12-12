@@ -4,7 +4,8 @@ import { AUTH } from "../../constants";
 export const optionalApi = createApi({
   reducerPath: "optionalApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.spoonacular.com/food/" + AUTH,
+    baseUrl:
+      "https://api.spoonacular.com/food?apiKey=b46a0ef8e3ea4a76b0d120676274bcad",
   }),
   endpoints: (builder) => ({
     getJoke: builder.query({

@@ -4,7 +4,7 @@ import { AUTH } from "../../constants";
 export const priceApi = createApi({
   reducerPath: "priceApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.spoonacular.com/recipes/",
+    baseUrl: "https://api.spoonacular.com/recipes/" + AUTH,
   }),
   endpoints: (builder) => ({
     getPriceById: builder.query({

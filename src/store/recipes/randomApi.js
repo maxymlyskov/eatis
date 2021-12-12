@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AUTH } from "../constants";
 
-export const infoApi = createApi({
-  reducerPath: "infoApi",
+export const randomApi = createApi({
+  reducerPath: "randomApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.spoonacular.com/recipes/random" + AUTH,
+    baseUrl:
+      "https://api.spoonacular.com/recipes/random?apiKey=c453cb6b8bae416a864b1a962478597a&includeNutrition=true",
   }),
   endpoints: (builder) => ({
     getRandomRecipe: builder.query({
@@ -12,4 +13,4 @@ export const infoApi = createApi({
     }),
   }),
 });
-export const { useGetRandomRecipeQuery } = infoApi;
+export const { useGetRandomRecipeQuery } = randomApi;

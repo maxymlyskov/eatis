@@ -4,11 +4,11 @@ import { AUTH } from "../../constants";
 export const ingridientsApi = createApi({
   reducerPath: "ingridientsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.spoonacular.com/recipes/",
+    baseUrl: "https://api.spoonacular.com/recipes/" + AUTH,
   }),
   endpoints: (builder) => ({
     getIngridientsById: builder.query({
-      query: (id) => `ingridients?${id}/ingredientWidget.json${AUTH}`,
+      query: (id) => `ingridients?${id}/ingredientWidget.json`,
     }),
   }),
 });
