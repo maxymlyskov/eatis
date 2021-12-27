@@ -4,11 +4,11 @@ import { AUTH } from "../../constants";
 export const infoApi = createApi({
   reducerPath: "infoApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.spoonacular.com/recipes/" + AUTH,
+    baseUrl: "https://api.spoonacular.com/recipes",
   }),
   endpoints: (builder) => ({
     getRecipeInfo: builder.query({
-      query: (id) => `info?${id}/information`,
+      query: (id) => `/${id}/information${AUTH}`,
     }),
   }),
 });

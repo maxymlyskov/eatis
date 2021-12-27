@@ -2,10 +2,17 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import colors from "../config/colors";
 
-function PreFilter({ title, onPress, backgroundColor, color }) {
+function PreFilter({ title, onPress, backgroundColor, color, id }) {
+  const [isPress, setIsPress] = React.useState(false);
+
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={[styles.container]}>
+      <View
+        style={[
+          styles.container,
+          isPress ? { backgroundColor: colors.green } : {},
+        ]}
+      >
         <Text style={[styles.text]}>{title}</Text>
       </View>
     </TouchableOpacity>
@@ -14,7 +21,7 @@ function PreFilter({ title, onPress, backgroundColor, color }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.green,
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
     width: 80,
@@ -25,7 +32,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "NunitoBold",
     fontSize: 15,
-    color: "white",
+    color: colors.lightSilver,
   },
 });
 

@@ -27,13 +27,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
     paddingHorizontal: 25,
-    borderWidth: 1,
     borderColor: "black",
   },
   text: {
-    fontFamily: "YesevaOne",
+    fontFamily: "NunitoBold",
     fontSize: 30,
-    color: "black",
+    color: "white",
   },
 });
 

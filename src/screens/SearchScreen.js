@@ -7,7 +7,7 @@ import { useGetRandomRecipeQuery } from "../store/recipes/randomApi";
 import { useGetSearchQuery } from "../store/recipes/searchApi";
 import RecipeCard from "../components/RecipeCard";
 
-function SearchScreen(props) {
+function SearchScreen({ navigation }) {
   const [state, setState] = React.useState({
     s: "",
     results: [],
@@ -48,7 +48,11 @@ function SearchScreen(props) {
             data={data.results}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <RecipeCard title={item.title} imageUrl={item.image} />
+              <RecipeCard
+                title={item.title}
+                onPress={() => navigation.navigate("RecipeDetailsScreen", item)}
+                imageUrl={item.image}
+              />
             )}
           ></FlatList>
         </View>

@@ -12,6 +12,8 @@ import PluseStack from "./src/routes/PluseStack";
 import SavedStack from "./src/routes/SavedStack";
 import ProfileStack from "./src/routes/ProfileStack";
 
+import PlusButton from "./src/routes/PlusButton";
+
 import colors from "./src/config/colors";
 import { store } from "./src/store/store";
 
@@ -80,12 +82,21 @@ export default function App() {
           })}
         >
           <Tab.Screen name="Diary" component={DiaryStack} />
+          <Tab.Screen name="Recipe" component={RecipeStack} />
           <Tab.Screen
-            name="Recipe"
-            options={{ headerShown: false }}
-            component={RecipeStack}
+            name="Pluse"
+            component={PluseStack}
+            options={({ navigation }) => ({
+              tabBarButton: () => <PlusButton onPress={console.log("pluss")} />,
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  size={size}
+                  color={color}
+                  name="plus-circle"
+                />
+              ),
+            })}
           />
-          <Tab.Screen name="Pluse" component={PluseStack} />
           <Tab.Screen name="Saved" component={SavedStack} />
           <Tab.Screen name="Profile" component={ProfileStack} />
         </Tab.Navigator>

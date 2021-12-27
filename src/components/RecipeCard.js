@@ -19,6 +19,7 @@ function RecipeCard({ title, subTitle, imageUrl, onPress }) {
           style={styles.image}
           source={{ uri: imageUrl }}
           tint="light"
+          overflow="visible"
         >
           <View style={styles.detailsContainer}>
             <Text style={extraStyles.info} numberOfLines={1}>

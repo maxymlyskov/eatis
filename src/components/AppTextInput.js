@@ -7,18 +7,10 @@ import defaultStyles from "../config/styles";
 import colors from "../config/colors";
 
 function AppTextInput({ icon, width = "100%", ...otherProps }) {
-  //   const [loaded] = useFonts({
-  //     MontserratMedium: require("../../assets/fonts/Montserrat/Montserrat-Medium.ttf"),
-  //   });
-
-  //   if (!loaded) {
-  //     return null;
-  //   }
-
   return (
     <View style={[styles.container, { width }]}>
       <TextInput
-        placeholderTextColor={colors.purple}
+        placeholderTextColor="silver"
         style={styles.textInput}
         {...otherProps}
       />
@@ -44,7 +36,6 @@ const styles = StyleSheet.create({
 
   textInput: {
     flex: 1,
-    fontFamily: "MontserratMedium",
     fontSize: 16,
     padding: 10,
     borderBottomColor: "black",
