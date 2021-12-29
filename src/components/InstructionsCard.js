@@ -10,12 +10,15 @@ import extraStyles from "../config/styles";
 
 import colors from "../config/colors";
 
-function InstructionsCard({ title, onPress }) {
+function InstructionsCard({ title, onPress, number }) {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.card}>
+        <View style={styles.step}>
+          <Text style={extraStyles.title}>Step: {number}</Text>
+        </View>
         <View style={styles.detailsContainer}>
-          <Text numberOfLines={10} style={styles.title}>
+          <Text numberOfLines={20} style={styles.title}>
             {title}
           </Text>
         </View>
@@ -27,11 +30,10 @@ function InstructionsCard({ title, onPress }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
-    borderWidth: 5,
-    borderTopColor: colors.green,
-    borderBottomColor: "white",
-    borderStartColor: "white",
-    borderEndColor: "white",
+    borderWidth: 1,
+    borderColor: colors.green,
+    borderRadius: 15,
+    margin: 10,
     overflow: "hidden",
   },
   detailsContainer: {
@@ -46,9 +48,17 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 7,
-    color: colors.black,
+    color: colors.blackGreen,
     fontSize: 20,
     fontFamily: "NunitoBold",
+  },
+  step: {
+    paddingLeft: 20,
+    borderWidth: 1,
+    borderColor: colors.green,
+    borderTopColor: "white",
+    borderStartColor: "white",
+    borderEndColor: "white",
   },
 });
 

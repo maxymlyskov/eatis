@@ -4,6 +4,7 @@ export default {
   title: {
     fontFamily: "NunitoBold",
     fontSize: 32,
+    color: colors.black,
   },
   info: {
     fontFamily: "NunitoBold",

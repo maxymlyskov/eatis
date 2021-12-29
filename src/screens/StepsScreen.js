@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 import IngridientsCard from "../components/IngridientsCard";
 import InstructionsCard from "../components/InstructionsCard";
@@ -9,6 +9,7 @@ import { useGetAnalyzedInstructionsQuery } from "../store/recipes/infoById/analy
 
 function StepsScreen({ route }) {
   const id = route.params;
+  const [number, setNumber] = useState(1);
   const { data } = useGetAnalyzedInstructionsQuery(id);
   let steps = [];
   for (let i in data) {
@@ -18,14 +19,22 @@ function StepsScreen({ route }) {
       }
     }
   }
+  steps.map((step, i) => {
+    steps.push({ step: step, id: i + 1 });
+  });
+  steps = steps.filter((e) => {
+    return typeof e !== "string";
+  });
   console.log(steps);
   return (
     <Screen>
       {/* <AutoScrolling isVertical delay={5000} style={{ width: 300 }}> */}
       <FlatList
         data={steps}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => <InstructionsCard title={item} />}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <InstructionsCard number={item.id} title={item.step} />
+        )}
       />
       {/* </AutoScrolling> */}
     </Screen>

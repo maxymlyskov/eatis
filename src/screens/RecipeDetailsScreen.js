@@ -96,11 +96,9 @@ function RecipeDetailsScreen({ route, navigation }) {
                         size={20}
                       />
                     </View>
-                    {nutrition.data.calories ? (
-                      <Text key={key + 1} style={extraStyles.additional}>
-                        {nutrition.data.calories}cal
-                      </Text>
-                    ) : null}
+                    <Text key={key + 1} style={extraStyles.additional}>
+                      100 kcal
+                    </Text>
                   </View>
                   <View style={{ flex: 1, flexDirection: "row" }}>
                     <View style={{ paddingRight: 3 }}>
