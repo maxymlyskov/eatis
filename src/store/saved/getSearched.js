@@ -5,18 +5,15 @@ export const getSearched = createApi({
   reducerPath: "getSearched",
   tagTypes: ["Recipes"],
   baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL + "recipeSearch",
+    baseUrl: "http://192.168.0.106:4000/api/recipeSearch",
   }),
   endpoints: (builder) => ({
     getSearched: builder.query({
-      query: () => `recipeSearch`,
-      providesTags: (result) =>
+      query: () => `/wall`,
+      providesTags: (result, error, arg) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "Recipes", id })),
-              { type: "Recipes", id: "LIST" },
-            ]
-          : [{ type: "Recipes", id: "LIST" }],
+          ? [...result.map(({ id }) => ({ type: "Recipes", id })), "Recipes"]
+          : ["Recipes"],
     }),
     addSearched: builder.mutation({
       query: (body) => ({
@@ -24,14 +21,14 @@ export const getSearched = createApi({
         method: "POST",
         body,
       }),
-      invaldatesTags: [{ type: "Recipes", id: "LIST" }],
+      invalidatesTags: ["Recipes"],
     }),
     deleteSearched: builder.mutation({
       query: (id) => ({
         url: `/${id}`,
         method: "DELETE",
       }),
-      invaldatesTags: [{ type: "Recipes", id: "LIST" }],
+      invaldatesTags: ["Recipes"],
     }),
   }),
 });

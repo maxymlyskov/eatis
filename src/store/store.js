@@ -11,6 +11,7 @@ import { randomApi } from "./recipes/randomApi";
 import { similarApi } from "./recipes/infoById/similarApi";
 import { tasteApi } from "./recipes/infoById/tasteApi";
 import { optionalApi } from "./recipes/optional/optionalApi";
+import { getSearched } from "./saved/getSearched";
 import { searchFoodApi } from "./recipes/misc/searchFoodApi";
 import { analyzedInstructionsApi } from "./recipes/infoById/analyzedInstructionsApi";
 
@@ -29,6 +30,7 @@ export const store = configureStore({
     // [tasteApi.reducerPath]: tasteApi.reducer,
     [optionalApi.reducerPath]: optionalApi.reducer,
     [plannerApi.reducerPath]: plannerApi.reducer,
+    [getSearched.reducerPath]: getSearched.reducer,
     // [searchFoodApi.reducerPath]: searchFoodApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -41,7 +43,8 @@ export const store = configureStore({
       .concat(randomApi.middleware)
       .concat(infoApi.middleware)
       .concat(nutritionApi.middleware)
-      .concat(analyzedInstructionsApi.middleware),
+      .concat(analyzedInstructionsApi.middleware)
+      .concat(getSearched.middleware),
 });
 
 setupListeners(store.dispatch);

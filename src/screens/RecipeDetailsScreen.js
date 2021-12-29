@@ -17,6 +17,7 @@ import Screen from "../components/Screen";
 import extraStyles from "../config/styles";
 import { useGetRecipeInfoQuery } from "../store/recipes/infoById/infoApi";
 import { useGetNutritionByIdQuery } from "../store/recipes/infoById/nutritionApi";
+import { useAddSearchedMutation } from "../store/saved/getSearched";
 import AnimatedHeader from "../components/AnimatedHeader";
 import IngridientsCard from "../components/IngridientsCard";
 import AppButton from "../components/AppButton";
@@ -26,6 +27,7 @@ function RecipeDetailsScreen({ route, navigation }) {
   const offset = useRef(new Animated.Value(0)).current;
   let [number, setNumber] = React.useState(1);
   const info = useGetRecipeInfoQuery(recipe.id);
+  const [addRecipe, isError] = useAddSearchedMutation();
   let key = recipe.id;
   const nutrition = useGetNutritionByIdQuery(key);
   console.log(recipe.id);
@@ -37,6 +39,17 @@ function RecipeDetailsScreen({ route, navigation }) {
 
   let s = "s";
   if (number == 1) s = "";
+  const handleAddRecipe = async (recipe) => {
+    try {
+      await addRecipe({
+        id: recipe.id,
+        title: recipe.title,
+        image: recipe.image,
+      }).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // if (info.data.readyInMinutes > 45) difficulty = "hard";
   // let kcal = parseInt(nutrition.data.calories) * number;
   return (
@@ -47,7 +60,7 @@ function RecipeDetailsScreen({ route, navigation }) {
             animatedValue={offset}
             img={info.data.image}
             navigation={navigation}
-            onPress={() => console.log("clicked")}
+            onPress={() => handleAddRecipe(info.data)}
             formLike
           />
           <Animated.ScrollView
