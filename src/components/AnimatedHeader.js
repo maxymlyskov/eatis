@@ -42,21 +42,23 @@ export default function AnimatedHeader({
 
   return (
     <Animated.View style={[styles.container, { height: headerHeight }]}>
-      <View
-        style={{
-          flex: 1,
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          zIndex: 0,
-        }}
-      >
-        <Image
-          style={{ width: "100%", height: "100%", opacity: 0.8 }}
-          source={{ uri: img }}
-          resizeMode="cover"
-        />
-      </View>
+      {img ? (
+        <View
+          style={{
+            flex: 1,
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            zIndex: 0,
+          }}
+        >
+          <Image
+            style={{ width: "100%", height: "100%", opacity: 0.8 }}
+            source={{ uri: img }}
+            resizeMode="cover"
+          />
+        </View>
+      ) : null}
       <View style={{ flex: 1, flexDirection: "row", padding: 40, zIndex: 1 }}>
         <TouchableWithoutFeedback
           onPress={() => navigation.goBack()}
@@ -73,7 +75,12 @@ export default function AnimatedHeader({
         ></View>
         {onPress ? (
           <View style={{ flex: 1, alignItems: "flex-end" }}>
-            <LikeButton form={formLike} size={30} onPress={onPress} />
+            <LikeButton
+              color="white"
+              form={formLike}
+              size={30}
+              onPress={onPress}
+            />
           </View>
         ) : null}
       </View>

@@ -5,18 +5,18 @@ export const getDayPlanner = createApi({
   reducerPath: "getDayPlanner",
   tagTypes: ["DayPlanner"],
   baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL + "dayPlanner",
+    baseUrl: "http://192.168.0.106:4000/api/dayPlanner",
   }),
   endpoints: (builder) => ({
     getDayPlanner: builder.query({
-      query: () => `dayPlanner`,
-      providesTags: (result) =>
+      query: () => ``,
+      providesTags: (result, error, arg) =>
         result
           ? [
               ...result.map(({ id }) => ({ type: "DayPlanner", id })),
-              { type: "DayPlanner", id: "LIST" },
+              "DayPlanner",
             ]
-          : [{ type: "DayPlanner", id: "LIST" }],
+          : ["DayPlanner"],
     }),
     addDayPlanner: builder.mutation({
       query: (body) => ({
@@ -24,14 +24,14 @@ export const getDayPlanner = createApi({
         method: "POST",
         body,
       }),
-      invaldatesTags: [{ type: "DayPlanner", id: "LIST" }],
+      invaldatesTags: ["DayPlanner"],
     }),
     deleteDayPlanner: builder.mutation({
       query: (id, mealId) => ({
         url: `/${id}/${mealId}`,
         method: "DELETE",
       }),
-      invaldatesTags: [{ type: "DayPlanner", id: "LIST" }],
+      invaldatesTags: ["DayPlanner"],
     }),
     patchDayPlanner: builder.mutation({
       query: (id, body) => ({
@@ -39,7 +39,7 @@ export const getDayPlanner = createApi({
         method: "PATCH",
         body,
       }),
-      invaldatesTags: [{ type: "DayPlanner", id: "LIST" }],
+      invaldatesTags: ["DayPlanner"],
     }),
   }),
 });

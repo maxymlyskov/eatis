@@ -4,12 +4,11 @@ import { AUTH } from "../constants";
 export const plannerApi = createApi({
   reducerPath: "plannerApi",
   baseQuery: fetchBaseQuery({
-    baseUrl:
-      "https://api.spoonacular.com/mealplanner/generate?apiKey=b46a0ef8e3ea4a76b0d120676274bcad&includeNutrition=true",
+    baseUrl: `https://api.spoonacular.com/mealplanner/generate${AUTH}`,
   }),
   endpoints: (builder) => ({
     getDayPlanner: builder.query({
-      query: (planner) => `planner?&timeFrame=day`,
+      query: (diet) => `planner?&timeFrame=day&diet=${diet}`,
     }),
     getWeekPlanner: builder.query({
       query: (planner) => `planner?&timeFrame=week`,

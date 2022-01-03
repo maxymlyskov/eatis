@@ -4,8 +4,7 @@ import { AUTH } from "../constants";
 export const searchApi = createApi({
   reducerPath: "searchApi",
   baseQuery: fetchBaseQuery({
-    baseUrl:
-      "https://api.spoonacular.com/recipes/complexSearch?apiKey=b46a0ef8e3ea4a76b0d120676274bcad&includeNutrition=true",
+    baseUrl: `https://api.spoonacular.com/recipes/complexSearch${AUTH}`,
   }),
   endpoints: (builder) => ({
     // query for searching by name of the recipe

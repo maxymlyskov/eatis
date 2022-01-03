@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RecipeScreen from "../screens/RecipeScreen";
 import SearchScreen from "../screens/SearchScreen";
 import RecipeDetailsScreen from "../screens/RecipeDetailsScreen";
+import DayPlannerScreen from "../screens/DayPlannerScreen";
 import StepsScreen from "../screens/StepsScreen";
 
 const Stack = createNativeStackNavigator();
@@ -18,6 +19,7 @@ export default function RecipeStack() {
         component={RecipeDetailsScreen}
       />
       <Stack.Screen name="StepsScreen" component={StepsScreen} />
+      <Stack.Screen name="DayPlannerScreen" component={DayPlannerScreen} />
     </Stack.Navigator>
   );
 }

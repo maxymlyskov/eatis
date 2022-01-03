@@ -28,7 +28,7 @@ export const getSearched = createApi({
         url: `/${id}`,
         method: "DELETE",
       }),
-      invaldatesTags: ["Recipes"],
+      invalidatesTags: ["Recipes"],
     }),
   }),
 });

@@ -1,3 +1,3 @@
 export const AUTH =
-  "?apiKey=b46a0ef8e3ea4a76b0d120676274bcad&includeNutrition=true";
+  "?apiKey=c453cb6b8bae416a864b1a962478597a&includeNutrition=true";
 export const BASE_URL = "http://localhost:4000/api/";

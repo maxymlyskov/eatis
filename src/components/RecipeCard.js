@@ -6,22 +6,44 @@ import {
   Text,
   Image,
   ImageBackground,
+  Dimensions,
 } from "react-native";
 import extraStyles from "../config/styles";
+import LikeButton from "./LikeButton";
 
 import colors from "../config/colors";
 
-function RecipeCard({ title, subTitle, imageUrl, onPress }) {
+function RecipeCard({
+  title,
+  subTitle,
+  imageUrl,
+  onPress,
+  onPressLike,
+  image,
+  likeButton,
+}) {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.card}>
         <ImageBackground
           style={styles.image}
-          source={{ uri: imageUrl }}
+          source={image}
           tint="light"
           overflow="visible"
         >
           <View style={styles.detailsContainer}>
+            {likeButton ? (
+              <View
+                style={{
+                  alignSelf: "flex-end",
+                  marginTop: -Dimensions.get("window").height / 5.9,
+                  paddingRight: 10,
+                  position: "absolute",
+                }}
+              >
+                <LikeButton color="white" size={35} onPress={onPressLike} />
+              </View>
+            ) : null}
             <Text style={extraStyles.info} numberOfLines={1}>
               {title}
             </Text>

@@ -51,7 +51,7 @@ function SearchScreen({ navigation }) {
               <RecipeCard
                 title={item.title}
                 onPress={() => navigation.navigate("RecipeDetailsScreen", item)}
-                imageUrl={item.image}
+                image={{ uri: item.image }}
               />
             )}
           ></FlatList>

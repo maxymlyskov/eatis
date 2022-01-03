@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 
-function LikeButton({ onPress, form, size }) {
+function LikeButton({ onPress, form, size, color }) {
   let [like, setLike] = React.useState(false);
 
   const handleSubmitted = () => {
@@ -27,10 +27,10 @@ function LikeButton({ onPress, form, size }) {
           <MaterialCommunityIcons
             name={"bookmark-outline"}
             size={size}
-            color="white"
+            color={color}
           />
         ) : (
-          <MaterialCommunityIcons name={"bookmark"} size={size} color="white" />
+          <MaterialCommunityIcons name={"bookmark"} size={size} color={color} />
         )}
       </TouchableWithoutFeedback>
     </View>

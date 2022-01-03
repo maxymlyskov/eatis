@@ -14,6 +14,7 @@ import { optionalApi } from "./recipes/optional/optionalApi";
 import { getSearched } from "./saved/getSearched";
 import { searchFoodApi } from "./recipes/misc/searchFoodApi";
 import { analyzedInstructionsApi } from "./recipes/infoById/analyzedInstructionsApi";
+import { getDayPlanner } from "./saved/getDayPlanner";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     // user: userSlice,
     [searchApi.reducerPath]: searchApi.reducer,
     // [plannerApi.reducerPath]: plannerApi.reducer,
+    [getDayPlanner.reducerPath]: getDayPlanner.reducer,
     [randomApi.reducerPath]: randomApi.reducer,
     [infoApi.reducerPath]: infoApi.reducer,
     [nutritionApi.reducerPath]: nutritionApi.reducer,
@@ -44,7 +46,9 @@ export const store = configureStore({
       .concat(infoApi.middleware)
       .concat(nutritionApi.middleware)
       .concat(analyzedInstructionsApi.middleware)
-      .concat(getSearched.middleware),
+      .concat(getSearched.middleware)
+      .concat(optionalApi.middleware)
+      .concat(getDayPlanner.middleware),
 });
 
 setupListeners(store.dispatch);
