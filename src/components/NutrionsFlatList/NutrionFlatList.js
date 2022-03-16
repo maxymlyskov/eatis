@@ -1,17 +1,20 @@
 import React from "react";
-import { View, FlatList } from 'react-native';
+import { 
+  View,
+  FlatList
+} from 'react-native';
 
 import CardItem from "./CardItem";
 
 import colors from '../../config/colors';
 
 const nutrions = [
-  { id: '1', title: 'Breakfast', bg: colors.green, ingredients: 'Egg,\nToast,\nFriedBacon...', kcal: '375'},
-  { id: '2', title: 'Lunch', bg: colors.purple, ingredients: 'Fried chicken,\nAvocado,\nTomatos...', kcal: '749'},
-  { id: '3', title: 'Dinner', bg: colors.red, ingredients: '', kcal: '', recommendation: '608'},
+  { id: '1', title: 'Breakfast', image: require('../../../assets/imgs/breakfast.png'), bg: colors.green, ingredients: 'Egg,\nToast,\nFriedBacon...', kcal: '375'},
+  { id: '2', title: 'Lunch', image: require('../../../assets/imgs/lunch.png'), bg: colors.purple, ingredients: 'Fried chicken,\nAvocado,\nTomatos...', kcal: '749'},
+  { id: '3', title: 'Dinner', image: require('../../../assets/imgs/dinner.png'), bg: colors.red, ingredients: '', kcal: '', recommendation: '608'},
 ];
 
-export default function NutrionsFlatList() {
+export default function NutrionsFlatList({ navigation }) {
   return (
     <FlatList 
       horizontal
@@ -22,14 +25,17 @@ export default function NutrionsFlatList() {
       keyExtractor={(item) => item.id}
       renderItem={({ item, index }) => {
         return (
-          <CardItem item={item}/>
+          <CardItem navigation={navigation} item={item}/>
         );
       }}
 
-      style={{flex: 1}}
+      style={{
+        flex: 1,
+        overflow: "visible"
+      }}
 
       ItemSeparatorComponent={
-        () => <View style={{width: 5}} />
+        () => <View style={{width: 10}} />
       }
     />
   );

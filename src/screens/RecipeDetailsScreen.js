@@ -47,7 +47,7 @@ function RecipeDetailsScreen({ route, navigation }) {
         image: recipe.image,
       }).unwrap();
     } catch (error) {
-      console.log(error);
+      console.log(error.error);
     }
   };
   // if (info.data.readyInMinutes > 45) difficulty = "hard";
@@ -160,6 +160,16 @@ function RecipeDetailsScreen({ route, navigation }) {
               renderItem={({ item }) => (
                 <IngridientsCard title={item.original} />
               )}
+              style={{
+                borderWidth: 1,
+                borderColor: colors.lightSilver,
+                borderRadius: 20,
+                // padding: 10
+              }}
+              contentContainerStyle={{
+                marginTop: 20,
+                marginBottom: 20,
+              }}
             />
             <View style={styles.button}>
               <AppButton

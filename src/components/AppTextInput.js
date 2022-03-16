@@ -1,17 +1,15 @@
 import React from "react";
 import { TextInput, View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useFonts } from "expo-font";
 
-import defaultStyles from "../config/styles";
-import colors from "../config/colors";
+import fonts from "../styles/fonts";
 
 function AppTextInput({ icon, width = "100%", ...otherProps }) {
   return (
     <View style={[styles.container, { width }]}>
       <TextInput
         placeholderTextColor="silver"
-        style={styles.textInput}
+        style={[styles.textInput, fonts.Regular16]}
         {...otherProps}
       />
       {icon && (
@@ -31,15 +29,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20
   },
 
   textInput: {
-    flex: 1,
-    fontSize: 16,
-    padding: 10,
-    borderBottomColor: "black",
-    borderBottomWidth: 1,
+    flex: 1
   },
 
   icon: {

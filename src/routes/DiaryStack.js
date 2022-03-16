@@ -4,19 +4,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { getHeaderTitle } from '@react-navigation/elements';
 
+import MyHeader from '../components/MyHeader';
 import DiaryScreen from '../screens/DiaryScreen';
-
-import Screen from '../components/Screen';
+import PluseScreen from '../screens/PluseScreen';
 
 const Stack = createNativeStackNavigator();
-
-function MyHeader({title, style}) {
-  return (
-    <Screen style={style}>
-
-    </Screen>
-  );
-}
 
 export default function DiaryStack() {
   return (
@@ -35,6 +27,7 @@ export default function DiaryStack() {
       })}
     >
       <Stack.Screen name="MyDiary" component={DiaryScreen} />
+      <Stack.Screen name="PluseScreen" component={PluseScreen} />
     </Stack.Navigator>
   );
 }

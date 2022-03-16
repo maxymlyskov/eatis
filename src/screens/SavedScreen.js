@@ -1,40 +1,28 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import Screen from "../components/Screen";
+import styles from "../config/styles";
+
 import RecipeCard from "../components/RecipeCard";
 
 import {
   useGetSearchedQuery,
   useDeleteSearchedMutation,
 } from "../store/saved/getSearched";
+import FlatListFilterSaved from "../components/FlatlistFilter/FlatListFilterSaved";
 
-export default function SavedScreen({ navigation }) {
+export default function SavedScreen({ navigation, route }) {
   const { data, error } = useGetSearchedQuery();
-  const [deleteRecipe] = useDeleteSearchedMutation();
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteRecipe(id).unwrap();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log(data);
   return (
-    <Screen>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <RecipeCard
-            likeButton
-            title={item.title}
-            onPressLike={() => handleDelete(item._id)}
-            image={{ uri: item.image }}
-            onPress={() => navigation.navigate("RecipeDetailsScreen", item)}
-          />
-        )}
-      ></FlatList>
+    <Screen style={{ marginHorizontal: 20, marginVertical: 5 }}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{route.name.split("Screen")}</Text>
+      </View>
+
+      <View style={{ flex: 1 }}>
+        <FlatListFilterSaved data={data} navigation={navigation} />
+      </View>
     </Screen>
   );
 }

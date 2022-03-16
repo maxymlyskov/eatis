@@ -22,5 +22,10 @@ export default {
   Regular14: {
     fontFamily: 'NunitoRegular',
     fontSize: 14
+  },
+
+  Regular16: {
+    fontFamily: 'NunitoRegular',
+    fontSize: 16
   }
 }

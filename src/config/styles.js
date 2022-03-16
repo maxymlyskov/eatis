@@ -3,7 +3,7 @@ import colors from "./colors";
 export default {
   title: {
     fontFamily: "NunitoBold",
-    fontSize: 32,
+    fontSize: 28,
     color: colors.black,
   },
   info: {

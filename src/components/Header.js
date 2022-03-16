@@ -5,10 +5,10 @@ import LikeButton from "./LikeButton";
 import AutoScrolling from "react-native-auto-scrolling";
 
 import colors from "../config/colors";
-import { useGetTriviaQuery } from "../store/recipes/optional/optionalApi";
+// import { useGetTriviaQuery } from "../store/recipes/optional/optionalApi";
 
 function Header({ navigation, formLike, onPress, text }) {
-  const { data } = useGetTriviaQuery();
+  // const { data } = useGetTriviaQuery();
   return (
     <View style={{ flexDirection: "row", padding: 20, zIndex: 1 }}>
       <TouchableWithoutFeedback
@@ -21,7 +21,7 @@ function Header({ navigation, formLike, onPress, text }) {
           name="arrow-left"
         />
       </TouchableWithoutFeedback>
-      <AutoScrolling style={{ flex: 1 }}>
+      {/* <AutoScrolling style={{ flex: 1 }}> */}
         <View
           style={{
             flex: 10,
@@ -30,10 +30,10 @@ function Header({ navigation, formLike, onPress, text }) {
           }}
         >
           <Text numberOfLines={1} style={styles.text}>
-            {data.text}
+            {text}
           </Text>
         </View>
-      </AutoScrolling>
+      {/* </AutoScrolling> */}
       {onPress ? (
         <View style={{ alignItems: "flex-end" }}>
           <LikeButton

@@ -15,15 +15,19 @@ import colors from "../config/colors";
 
 function RecipeCard({
   title,
-  subTitle,
-  imageUrl,
   onPress,
   onPressLike,
   image,
   likeButton,
+  onLongPress,
+  delayLongPress,
 }) {
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <TouchableWithoutFeedback
+      onPress={onPress}
+      onLongPress={onLongPress}
+      delayLongPress={delayLongPress}
+    >
       <View style={styles.card}>
         <ImageBackground
           style={styles.image}
@@ -48,6 +52,18 @@ function RecipeCard({
               {title}
             </Text>
           </View>
+
+          {/* Overlay */}
+          <View
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              backgroundColor: "#000",
+              opacity: 0.25,
+              zIndex: 0,
+            }}
+          />
         </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
@@ -56,8 +72,7 @@ function RecipeCard({
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 15,
-    margin: 15,
+    borderRadius: 20,
     backgroundColor: colors.grey,
     marginBottom: 20,
     overflow: "hidden",
@@ -65,13 +80,14 @@ const styles = StyleSheet.create({
   detailsContainer: {
     padding: 10,
     marginTop: "auto",
+    zIndex: 1,
   },
   image: {
     width: "100%",
     height: 200,
   },
   title: {
-    marginBottom: 7,
+    // marginBottom: 7,
   },
 });
 

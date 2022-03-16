@@ -21,17 +21,11 @@ function IngridientsCard({ title, onPress }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
-    borderWidth: 1,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    borderTopColor: colors.black,
-    borderBottomColor: "white",
-    borderStartColor: colors.black,
-    borderEndColor: colors.black,
-    overflow: "hidden",
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lightSilver 
   },
   detailsContainer: {
-    padding: 10,
+    paddingHorizontal: 10,
     marginLeft: "auto",
     justifyContent: "center",
     alignItems: "center",
@@ -41,9 +35,9 @@ const styles = StyleSheet.create({
     height: 200,
   },
   title: {
-    marginBottom: 7,
     color: colors.black,
     fontFamily: "NunitoBold",
+    paddingVertical: 15
   },
 });
 

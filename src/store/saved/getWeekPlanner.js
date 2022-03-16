@@ -5,11 +5,11 @@ export const getWeekPlanner = createApi({
   reducerPath: "getWeekPlanner",
   tagTypes: ["WeekPlanner"],
   baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL + "weekPlanner",
+    baseUrl: "http://192.168.1.106:4000/api/weekPlanner",
   }),
   endpoints: (builder) => ({
     getWeekPlanner: builder.query({
-      query: () => `weekPlanner`,
+      query: () => ``,
       providesTags: (result) =>
         result
           ? [
@@ -28,7 +28,7 @@ export const getWeekPlanner = createApi({
     }),
     deleteWeekPlanner: builder.mutation({
       query: (id, day, mealId) => ({
-        url: `/${id}/${day}/${mealId}`,
+        url: `/${id}`,
         method: "DELETE",
       }),
       invaldatesTags: [{ type: "WeekPlanner", id: "LIST" }],

@@ -6,13 +6,13 @@ function RecipeHeader({ onPressFormat, onPressSearch }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onPressSearch}>
-        <MaterialCommunityIcons size={45} name="magnify" color="black" />
+        <MaterialCommunityIcons size={32} name="magnify" color="black" />
       </TouchableOpacity>
       <View style={styles.search}>
         <TouchableOpacity onPress={onPressFormat}>
           <MaterialCommunityIcons
-            size={30}
-            name="format-align-left"
+            size={32}
+            name="filter-outline"
             color="black"
           />
         </TouchableOpacity>
@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 10,
+    paddingVertical: 10
+    // paddingHorizontal: 10,
   },
 });
 

@@ -11,7 +11,10 @@ export const plannerApi = createApi({
       query: (diet) => `planner?&timeFrame=day&diet=${diet}`,
     }),
     getWeekPlanner: builder.query({
-      query: (planner) => `planner?&timeFrame=week`,
+      query: (ingridient) => `planner?&timeFrame=week&exclude=${ingridient}`,
+    }),
+    getWeekPlannerWithDiet: builder.query({
+      query: (diet) => `planner?&timeFrame=week&diet=${diet}`,
     }),
     filterTargetCalories: builder.query({
       query: (targetCalories) =>
@@ -31,4 +34,5 @@ export const {
   useFilterTargetCaloriesQuery,
   useGetDayPlannerQuery,
   useGetWeekPlannerQuery,
+  useGetWeekPlannerWithDietQuery,
 } = plannerApi;

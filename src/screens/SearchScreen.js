@@ -17,14 +17,7 @@ function SearchScreen({ navigation }) {
 
   return (
     <Screen style={styles.container}>
-      <View
-        style={{
-          flex: 2.5,
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <View style={{flex: 1, paddingVertical: 20}}>
         <AppForm initialValues={{ search: "" }}>
           <AppFormField
             placeholder="Search recipe"
@@ -42,8 +35,8 @@ function SearchScreen({ navigation }) {
           />
         </AppForm>
       </View>
-      {data ? (
-        <View style={{ flex: 15 }}>
+      <View style={{flex: 12}}>
+        {data ? (
           <FlatList
             data={data.results}
             keyExtractor={(item) => item.id}
@@ -54,15 +47,19 @@ function SearchScreen({ navigation }) {
                 image={{ uri: item.image }}
               />
             )}
-          ></FlatList>
-        </View>
-      ) : null}
+            showsVerticalScrollIndicator={false}
+          />
+        ) : null}
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { 
+    // flex: 1,
+    paddingHorizontal: 20
+  },
 });
 
 export default SearchScreen;

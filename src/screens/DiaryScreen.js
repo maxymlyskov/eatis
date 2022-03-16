@@ -37,8 +37,8 @@ export default function DiartScreen({ navigation, route}) {
 
         <Text style={fonts.Bold24}>Nutrion</Text>
           
-        <View style={{ marginVertical: 20 }}>
-          <NutrionsFlatList />
+        <View>
+          <NutrionsFlatList navigation={navigation} />
         </View>
       </ScrollView>
     </Screen>
