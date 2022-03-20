@@ -8,6 +8,7 @@ import DayPlannerScreen from "../screens/DayPlannerScreen";
 import StepsScreen from "../screens/StepsScreen";
 import SavedDayPlannerScreen from "../screens/SavedDayPlannerScreen";
 import WeekPlannerScreen from "../screens/WeekPlannerScreen";
+import IngredientDetailsScreen from "../screens/IngredientDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,10 @@ export default function RecipeStack() {
         component={RecipeDetailsScreen}
       />
       <Stack.Screen name="StepsScreen" component={StepsScreen} />
+      <Stack.Screen
+        name="IngredientDetailsScreen"
+        component={IngredientDetailsScreen}
+      />
       <Stack.Screen name="DayPlannerScreen" component={DayPlannerScreen} />
       <Stack.Screen
         name="SavedDayPlannerScreen"

@@ -17,7 +17,7 @@ function SearchScreen({ navigation }) {
 
   return (
     <Screen style={styles.container}>
-      <View style={{flex: 1, paddingVertical: 20}}>
+      <View style={{ flex: 1.5, paddingVertical: 20 }}>
         <AppForm initialValues={{ search: "" }}>
           <AppFormField
             placeholder="Search recipe"
@@ -35,7 +35,7 @@ function SearchScreen({ navigation }) {
           />
         </AppForm>
       </View>
-      <View style={{flex: 12}}>
+      <View style={{ flex: 12 }}>
         {data ? (
           <FlatList
             data={data.results}
@@ -56,9 +56,9 @@ function SearchScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { 
+  container: {
     // flex: 1,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
 });
 

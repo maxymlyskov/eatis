@@ -11,27 +11,29 @@ import Screen from "../components/Screen";
 import RecipeHeader from "../components/RecipeHeader";
 
 import fonts from "../styles/fonts";
-import styles from '../config/styles';
+import styles from "../config/styles";
 import extraStyles from "../config/styles";
 import colors from "../config/colors";
 import FlatListFilter from "../components/FlatlistFilter/FlatListFilter";
 
 export default function RecipeScreen({ navigation, route }) {
   const { data, isLoading, error } = useGetSearchQuery("chicken");
-  
+  console.log(error);
+
   const weekPlanner = useGetWeekPlannerQuery();
-  
-  if (isLoading) return <Screen style={{ backgroundColor: colors.green }}></Screen>;
+
+  if (isLoading)
+    return <Screen style={{ backgroundColor: colors.green }}></Screen>;
 
   return (
     <Screen style={{ backgroundColor: "white", paddingHorizontal: 20 }}>
       <RecipeHeader onPressSearch={() => navigation.navigate("SearchScreen")} />
 
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{ route.name.split("Screen") }</Text>
+        <Text style={styles.title}>{route.name.split("Screen")}</Text>
       </View>
 
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <FlatListFilter data={data} navigation={navigation} />
       </View>
     </Screen>

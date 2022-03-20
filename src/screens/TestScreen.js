@@ -1,27 +1,31 @@
-import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
-import Screen from "../components/Screen";
-import { useGetSearchQuery } from "../store/recipes/searchApi";
+import React, { useState, useRef } from "react";
+import { View, StyleSheet, FlatList, Text } from "react-native";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 function TestScreen(props) {
-  const { data = [], isLoading } = useGetSearchQuery();
-  console.log(data);
+  const sheetRef = useRef(BottomSheet);
+  const [isOpen, setIsOpen] = useState(true);
+
+  const snapPoints = ["20%"];
+
   return (
-    <Screen>
-      {/* <FlatList
-        data={data}
-        keyExtractor={({ item }) => item.id.toString()}
-        renderItem={({ item }) => {
-          <AppText style={styles.text}>{item}</AppText>;
-        }}
-      ></FlatList>
-      ) */}
-    </Screen>
+    <View style={styles.container}>
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={snapPoints}
+        enablePanDownToClose
+        onClose={() => setIsOpen(false)}
+      >
+        <BottomSheetView style={{ backgroundColor: "green" }}>
+          <Text>hello</Text>
+        </BottomSheetView>
+      </BottomSheet>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { flex: 1, backgroundColor: "gray" },
   text: {
     fontSize: 15,
   },

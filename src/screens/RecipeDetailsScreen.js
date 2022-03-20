@@ -1,4 +1,6 @@
-import React, { useRef } from "react";
+import React, { useState, useRef, useMemo, useCallback } from "react";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+
 import {
   View,
   StyleSheet,
@@ -8,10 +10,12 @@ import {
   Animated,
   TouchableOpacity,
   Dimensions,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import RecipeCard from "../components/RecipeCard";
+import { useGetInfoIngridientQuery } from "../store/recipes/infoById/ingredientApi";
 import colors from "../config/colors";
 import Screen from "../components/Screen";
 import extraStyles from "../config/styles";
@@ -21,6 +25,7 @@ import { useAddSearchedMutation } from "../store/saved/getSearched";
 import AnimatedHeader from "../components/AnimatedHeader";
 import IngridientsCard from "../components/IngridientsCard";
 import AppButton from "../components/AppButton";
+import { imageURL } from "../store/constants";
 
 function RecipeDetailsScreen({ route, navigation }) {
   const recipe = route.params;
@@ -32,10 +37,32 @@ function RecipeDetailsScreen({ route, navigation }) {
   const nutrition = useGetNutritionByIdQuery(key);
   console.log(recipe.id);
   let difficulty = "easy";
+  const [isOpen, setIsOpen] = useState(false);
+  const [id, setId] = useState(0);
+  const infoIng = useGetInfoIngridientQuery(id);
+
+  // ref
+  const bottomSheetRef = useRef(BottomSheet);
+
+  // variables
+  const snapPoints = useMemo(() => ["50%"], []);
+
+  // callbacks
+  const handleSheetChanges = useCallback((index) => {
+    bottomSheetRef.current?.snapToIndex(index);
+    setIsOpen(true);
+  }, []);
+  const handleClosePress = useCallback(() => {
+    bottomSheetRef.current?.close();
+  }, []);
 
   const { width, height } = Dimensions.get("window");
   const HEADER_HEIGHT = height / 4;
   const MIN_HEIHGT = height / 5;
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   let s = "s";
   if (number == 1) s = "";
@@ -109,9 +136,11 @@ function RecipeDetailsScreen({ route, navigation }) {
                         size={20}
                       />
                     </View>
-                    <Text key={key + 1} style={extraStyles.additional}>
-                      100 kcal
-                    </Text>
+                    {nutrition.data ? (
+                      <Text key={key + 1} style={extraStyles.additional}>
+                        {parseInt(nutrition.data.calories) * number} kcal
+                      </Text>
+                    ) : null}
                   </View>
                   <View style={{ flex: 1, flexDirection: "row" }}>
                     <View style={{ paddingRight: 3 }}>
@@ -154,11 +183,24 @@ function RecipeDetailsScreen({ route, navigation }) {
             <View style={styles.ingridients}>
               <Text style={extraStyles.ingridient}>{"\u25CF"} Ingridents</Text>
             </View>
+
             <FlatList
               data={info.data.extendedIngredients}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <IngridientsCard title={item.original} />
+                <IngridientsCard
+                  title={item.original}
+                  image={imageURL + item.image}
+                  onPress={() =>
+                    // navigation.navigate("IngredientDetailsScreen", item.id)
+                    {
+                      handleSheetChanges(0);
+                      setIsOpen(true);
+                      setId(item.id);
+                      console.log(id);
+                    }
+                  }
+                />
               )}
               style={{
                 borderWidth: 1,
@@ -180,6 +222,91 @@ function RecipeDetailsScreen({ route, navigation }) {
           </Animated.ScrollView>
         </>
       ) : null}
+
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        enablePanDownToClose={true}
+        index={-1}
+        onClose={() => setIsOpen(false)}
+        style={{
+          borderColor: colors.grey,
+          borderTopStartRadius: 20,
+          borderTopEndRadius: 20,
+        }}
+      >
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <View style={{ marginRight: "auto" }}>
+            <TouchableWithoutFeedback onPress={() => handleClosePress()}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontFamily: "NunitoBold",
+                  padding: 10,
+                  color: colors.grey,
+                }}
+              >
+                Cancel
+              </Text>
+            </TouchableWithoutFeedback>
+          </View>
+          <View style={{ marginRight: Dimensions.get("window").width / 2.9 }}>
+            <Text
+              style={{ fontSize: 30, fontFamily: "NunitoBold", padding: 10 }}
+            >
+              Details
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            borderBottomColor: colors.grey,
+            borderBottomWidth: 1,
+          }}
+        />
+        {infoIng.data && (
+          <IngridientsCard
+            title={capitalizeFirstLetter(infoIng.data.name)}
+            preSubTitle="100g"
+            image={imageURL + infoIng.data.image}
+            style={{ fontSize: 30 }}
+          />
+        )}
+        <BottomSheetScrollView>
+          <View>
+            {infoIng.data && (
+              <>
+                <FlatList
+                  data={infoIng.data.nutrition.nutrients}
+                  keyExtractor={(item, i) => i}
+                  renderItem={({ item }) => (
+                    <IngridientsCard
+                      title={item.name}
+                      subTitle={`${item.amount} ${item.unit}`}
+                    />
+                  )}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "white",
+                    borderRadius: 20,
+                    // padding: 10
+                  }}
+                  contentContainerStyle={{
+                    marginTop: 20,
+                    marginBottom: 20,
+                  }}
+                />
+              </>
+            )}
+          </View>
+        </BottomSheetScrollView>
+      </BottomSheet>
     </Screen>
   );
 }
