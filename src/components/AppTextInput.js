@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 10,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
 
   textInput: {
-    flex: 1
+    flex: 1,
   },
 
   icon: {

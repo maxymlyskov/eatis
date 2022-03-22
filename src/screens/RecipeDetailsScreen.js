@@ -26,6 +26,7 @@ import AnimatedHeader from "../components/AnimatedHeader";
 import IngridientsCard from "../components/IngridientsCard";
 import AppButton from "../components/AppButton";
 import { imageURL } from "../store/constants";
+import BottomSheetHeader from "../components/BottomSheetHeader";
 
 function RecipeDetailsScreen({ route, navigation }) {
   const recipe = route.params;
@@ -150,7 +151,11 @@ function RecipeDetailsScreen({ route, navigation }) {
                         size={20}
                       />
                     </View>
-                    <Text style={extraStyles.additional}>{difficulty}</Text>
+                    {info.data.readyInMinutes && (
+                      <Text style={extraStyles.additional}>
+                        {info.data.readyInMinutes > 30 ? "hard" : "easy"}
+                      </Text>
+                    )}
                   </View>
                 </View>
               </View>
@@ -235,41 +240,7 @@ function RecipeDetailsScreen({ route, navigation }) {
           borderTopEndRadius: 20,
         }}
       >
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "row",
-          }}
-        >
-          <View style={{ marginRight: "auto" }}>
-            <TouchableWithoutFeedback onPress={() => handleClosePress()}>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: "NunitoBold",
-                  padding: 10,
-                  color: colors.grey,
-                }}
-              >
-                Cancel
-              </Text>
-            </TouchableWithoutFeedback>
-          </View>
-          <View style={{ marginRight: Dimensions.get("window").width / 2.9 }}>
-            <Text
-              style={{ fontSize: 30, fontFamily: "NunitoBold", padding: 10 }}
-            >
-              Details
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            borderBottomColor: colors.grey,
-            borderBottomWidth: 1,
-          }}
-        />
+        <BottomSheetHeader title="Details" onPress={() => handleClosePress()} />
         {infoIng.data && (
           <IngridientsCard
             title={capitalizeFirstLetter(infoIng.data.name)}

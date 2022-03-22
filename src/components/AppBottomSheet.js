@@ -1,4 +1,7 @@
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetScrollView,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import React, { useState, useRef, useMemo, useCallback } from "react";
 import {
   View,
@@ -6,14 +9,15 @@ import {
   FlatList,
   Dimensions,
   TouchableWithoutFeedback,
+  Text,
 } from "react-native";
-import IngridientsCard from "./IngridientsCard";
+import colors from "../config/colors";
 import { useGetInfoIngridientQuery } from "../store/recipes/infoById/ingredientApi";
 
-function AppBottomSheet(props) {
+function AppBottomSheet() {
   const [isOpen, setIsOpen] = useState(false);
   const [id, setId] = useState(0);
-  const info = useGetInfoIngridientQuery(id);
+  const infoIng = useGetInfoIngridientQuery(id);
 
   // ref
   const bottomSheetRef = useRef(BottomSheet);
@@ -77,42 +81,9 @@ function AppBottomSheet(props) {
             borderBottomWidth: 1,
           }}
         />
-        {info.data && (
-          <IngridientsCard
-            title={capitalizeFirstLetter(info.data.name)}
-            preSubTitle="100g"
-            image={imageURL + info.data.image}
-            style={{ fontSize: 30 }}
-          />
-        )}
-        <BottomSheetScrollView>
-          <View>
-            {info.data && (
-              <>
-                <FlatList
-                  data={info.data.nutrition.nutrients}
-                  keyExtractor={(item, i) => i}
-                  renderItem={({ item }) => (
-                    <IngridientsCard
-                      title={item.name}
-                      subTitle={`${item.amount} ${item.unit}`}
-                    />
-                  )}
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "white",
-                    borderRadius: 20,
-                    // padding: 10
-                  }}
-                  contentContainerStyle={{
-                    marginTop: 20,
-                    marginBottom: 20,
-                  }}
-                />
-              </>
-            )}
-          </View>
-        </BottomSheetScrollView>
+        <BottomSheetView>
+          <Text>WORkS</Text>
+        </BottomSheetView>
       </BottomSheet>
     </View>
   );

@@ -26,6 +26,7 @@ import BottomSheet, {
 import AppButton from "../components/AppButton";
 import { useGetInfoIngridientQuery } from "../store/recipes/infoById/ingredientApi";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import BottomSheetHeader from "../components/BottomSheetHeader";
 
 export default function PluseScreen({ navigation }) {
   const [state, setState] = useState({
@@ -145,41 +146,7 @@ export default function PluseScreen({ navigation }) {
           borderTopEndRadius: 20,
         }}
       >
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "row",
-          }}
-        >
-          <View style={{ marginRight: "auto" }}>
-            <TouchableWithoutFeedback onPress={() => handleClosePress()}>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: "NunitoBold",
-                  padding: 10,
-                  color: colors.grey,
-                }}
-              >
-                Cancel
-              </Text>
-            </TouchableWithoutFeedback>
-          </View>
-          <View style={{ marginRight: Dimensions.get("window").width / 2.9 }}>
-            <Text
-              style={{ fontSize: 30, fontFamily: "NunitoBold", padding: 10 }}
-            >
-              Details
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            borderBottomColor: colors.grey,
-            borderBottomWidth: 1,
-          }}
-        />
+        <BottomSheetHeader title="Details" onPress={() => handleClosePress()} />
         {info.data && (
           <IngridientsCard
             title={capitalizeFirstLetter(info.data.name)}

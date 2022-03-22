@@ -8,4 +8,7 @@ export default {
   black: "#061407",
   lightSilver: "#e1e1e1",
   blackGreen: "#162913",
+  blue: "#3045cf",
+  salat: "#a2e317",
+  yellow: "#a6b336",
 };
