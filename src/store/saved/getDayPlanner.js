@@ -24,14 +24,14 @@ export const getDayPlanner = createApi({
         method: "POST",
         body,
       }),
-      invaldatesTags: ["DayPlanner"],
+      invalidatesTags: ["DayPlanner"],
     }),
     deleteDayPlanner: builder.mutation({
       query: (id, mealId) => ({
         url: `/${id}`,
         method: "DELETE",
       }),
-      invaldatesTags: ["DayPlanner"],
+      invalidatesTags: ["DayPlanner"],
     }),
     patchDayPlanner: builder.mutation({
       query: (id, body) => ({

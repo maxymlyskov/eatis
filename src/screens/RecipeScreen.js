@@ -15,15 +15,34 @@ import styles from "../config/styles";
 import extraStyles from "../config/styles";
 import colors from "../config/colors";
 import FlatListFilter from "../components/FlatlistFilter/FlatListFilter";
+import AppButton from "../components/AppButton";
+import { useAddAuthMutation } from "../store/auth/authApi";
 
 export default function RecipeScreen({ navigation, route }) {
   const { data, isLoading, error } = useGetSearchQuery(`chicken`);
+  // const [addAuth] = useAddAuthMutation();
+  // const handleGetToken = async () => {
+  //   try {
+  //     await addAuth({
+  //       email: "max@domain.com",
+  //       password:
+  //         "$2b$10$beroOz9qHKjiUEHEbu1QR.SFpFUFzsrWW/IL0y56hoeRUvbYolACq",
+  //     })
+  //       .unwrap()
+  //       .then((res) => {
+  //         console.log(res);
+  //       });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   if (isLoading)
     return <Screen style={{ backgroundColor: colors.green }}></Screen>;
 
   return (
     <Screen style={{ backgroundColor: "white", paddingHorizontal: 20 }}>
+      \
       {data && (
         <>
           <RecipeHeader

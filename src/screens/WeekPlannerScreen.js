@@ -1,5 +1,6 @@
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import Header from "../components/Header";
 import RecipeCard from "../components/RecipeCard";
 import Screen from "../components/Screen";
@@ -87,36 +88,35 @@ function WeekPlannerScreen({ route, navigation }) {
     },
   ];
   return (
-    <Screen>
-      <View>
-        {!saved._id ? (
-          <Header
-            navigation={navigation}
-            text={title}
-            formLike
-            onPress={() => handleAddWeekPlanner(days)}
-          />
-        ) : (
-          <Header
-            navigation={navigation}
-            text={title}
-            formLike={false}
-            onPress={() => handleDeleteWeekPlanner(saved._id)}
-          />
-        )}
-        <View style={styles.list}>
-          <FlatList
-            data={week}
-            keyExtractor={(item, i) => item + i}
-            renderItem={({ item }) => (
-              <RecipeCard
-                image={{ uri: item.image }}
-                title={item.title}
-                onPress={() => navigation.navigate("DayPlannerScreen", item)}
-              />
-            )}
-          />
-        </View>
+    <Screen style={{ flex: 1 }}>
+      {!saved._id ? (
+        <Header
+          navigation={navigation}
+          text={title}
+          formLike
+          onPress={() => handleAddWeekPlanner(days)}
+        />
+      ) : (
+        <Header
+          navigation={navigation}
+          text={title}
+          formLike={false}
+          onPress={() => handleDeleteWeekPlanner(saved._id)}
+        />
+      )}
+      <View style={styles.list}>
+        <FlatList
+          data={week}
+          style={{ flex: 1 }}
+          keyExtractor={(item, i) => item + i}
+          renderItem={({ item }) => (
+            <RecipeCard
+              image={{ uri: item.image }}
+              title={item.title}
+              onPress={() => navigation.navigate("DayPlannerScreen", item)}
+            />
+          )}
+        />
       </View>
     </Screen>
   );
@@ -124,7 +124,7 @@ function WeekPlannerScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: {},
-  list: { margin: 10 },
+  list: { marginHorizontal: 10, flexGrow: 1 },
 });
 
 export default WeekPlannerScreen;

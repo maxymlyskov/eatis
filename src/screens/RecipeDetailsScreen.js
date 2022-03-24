@@ -41,7 +41,7 @@ function RecipeDetailsScreen({ route, navigation }) {
   const [isOpen, setIsOpen] = useState(false);
   const [id, setId] = useState(0);
   const infoIng = useGetInfoIngridientQuery(id);
-
+  console.log(infoIng.data);
   // ref
   const bottomSheetRef = useRef(BottomSheet);
 
@@ -244,7 +244,7 @@ function RecipeDetailsScreen({ route, navigation }) {
         {infoIng.data && (
           <IngridientsCard
             title={capitalizeFirstLetter(infoIng.data.name)}
-            preSubTitle="100g"
+            preSubTitle={`${infoIng.data.amount} ${infoIng.data.unit}`}
             image={imageURL + infoIng.data.image}
             style={{ fontSize: 30 }}
           />

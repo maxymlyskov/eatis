@@ -12,11 +12,8 @@ export const getWeekPlanner = createApi({
       query: () => ``,
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "WeekPlanner", id })),
-              { type: "WeekPlanner", id: "LIST" },
-            ]
-          : [{ type: "WeekPlanner", id: "LIST" }],
+          ? result.map(({ id }) => ({ type: "WeekPlanner", id }))
+          : ["WeekPlanner"],
     }),
     addWeekPlanner: builder.mutation({
       query: (body) => ({
@@ -24,14 +21,14 @@ export const getWeekPlanner = createApi({
         method: "POST",
         body,
       }),
-      invaldatesTags: [{ type: "WeekPlanner", id: "LIST" }],
+      invalidatesTags: ["WeekPlanner"],
     }),
     deleteWeekPlanner: builder.mutation({
       query: (id, day, mealId) => ({
         url: `/${id}`,
         method: "DELETE",
       }),
-      invaldatesTags: [{ type: "WeekPlanner", id: "LIST" }],
+      invalidatesTags: ["WeekPlanner"],
     }),
     patchWeekPlanner: builder.mutation({
       query: (id, day, body) => ({
@@ -39,7 +36,7 @@ export const getWeekPlanner = createApi({
         method: "PATCH",
         body,
       }),
-      invaldatesTags: [{ type: "WeekPlanner", id: "LIST" }],
+      invalidatesTags: ["WeekPlanner"],
     }),
   }),
 });

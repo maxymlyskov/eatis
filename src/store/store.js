@@ -18,11 +18,15 @@ import { searchFoodApi } from "./recipes/misc/searchFoodApi";
 import { analyzedInstructionsApi } from "./recipes/infoById/analyzedInstructionsApi";
 import { getDayPlanner } from "./saved/getDayPlanner";
 import { getWeekPlanner } from "./saved/getWeekPlanner";
+import authSlice from "./auth/authSlice";
+import { authApi } from "./auth/authApi";
 
 export const store = configureStore({
   reducer: {
     // login: loginSlice,
     // user: userSlice,
+    userAuth: authSlice,
+    [authApi.reducerPath]: authApi.reducer,
     [searchApi.reducerPath]: searchApi.reducer,
     [ingredientsSearchApi.reducerPath]: ingredientsSearchApi.reducer,
     // [plannerApi.reducerPath]: plannerApi.reducer,
@@ -57,6 +61,7 @@ export const store = configureStore({
       .concat(getDayPlanner.middleware)
       .concat(getWeekPlanner.middleware)
       .concat(ingredientsSearchApi.middleware)
+      .concat(authApi.middleware)
       .concat(ingredientApi.middleware),
 });
 
