@@ -5,7 +5,7 @@ export const getWeekPlanner = createApi({
   reducerPath: "getWeekPlanner",
   tagTypes: ["WeekPlanner"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://192.168.1.106:4000/api/weekPlanner",
+    baseUrl: "http://192.168.0.59:19000/api/weekPlanner",
   }),
   endpoints: (builder) => ({
     getWeekPlanner: builder.query({

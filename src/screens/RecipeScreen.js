@@ -42,7 +42,6 @@ export default function RecipeScreen({ navigation, route }) {
 
   return (
     <Screen style={{ backgroundColor: "white", paddingHorizontal: 20 }}>
-      \
       {data && (
         <>
           <RecipeHeader

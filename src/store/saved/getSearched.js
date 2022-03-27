@@ -5,7 +5,7 @@ export const getSearched = createApi({
   reducerPath: "getSearched",
   tagTypes: ["Recipes"],
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://192.168.1.106:4000/api/recipeSearch`,
+    baseUrl: `http://192.168.0.59:19000/api/recipeSearch`,
   }),
   endpoints: (builder) => ({
     getSearched: builder.query({

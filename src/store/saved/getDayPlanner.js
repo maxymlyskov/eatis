@@ -5,7 +5,7 @@ export const getDayPlanner = createApi({
   reducerPath: "getDayPlanner",
   tagTypes: ["DayPlanner"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://192.168.1.106:4000/api/dayPlanner",
+    baseUrl: "http://192.168.0.59:19000/api/dayPlanner",
   }),
   endpoints: (builder) => ({
     getDayPlanner: builder.query({
