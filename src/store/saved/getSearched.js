@@ -1,5 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../constants";
+import authStorage from "../../auth/storage";
+const handleGetToken = async () => {
+  const token = await authStorage.getToken();
+  return token;
+};
+
+handleGetToken().then((res) => console.log(res));
 
 export const getSearched = createApi({
   reducerPath: "getSearched",
@@ -9,7 +16,25 @@ export const getSearched = createApi({
   }),
   endpoints: (builder) => ({
     getSearched: builder.query({
-      query: () => `/wall`,
+      query: () => {
+        return {
+          url: "/",
+          method: "GET",
+          headers: {
+            "x-auth-token": tok,
+          },
+        };
+      },
+      // prepareHeaders: async (headers) => {
+      //   const token = await authStorage.getToken();
+      //   console.log(token);
+      //   // If we have a token set in state, let's assume that we should be passing it.
+      //   if (token) {
+      //     headers.set("x-auth-token", `${token}`);
+      //   }
+
+      //   return headers;
+      // },
       providesTags: (result, error, arg) =>
         result
           ? [...result.map(({ id }) => ({ type: "Recipes", id })), "Recipes"]
@@ -21,6 +46,16 @@ export const getSearched = createApi({
         method: "POST",
         body,
       }),
+      prepareHeaders: (headers) => {
+        const token = authStorage.getToken();
+
+        // If we have a token set in state, let's assume that we should be passing it.
+        if (token) {
+          headers.set("x-auth-token", `${token}`);
+        }
+
+        return headers;
+      },
       invalidatesTags: ["Recipes"],
     }),
     deleteSearched: builder.mutation({

@@ -24,7 +24,7 @@ import { authApi } from "./auth/authApi";
 export const store = configureStore({
   reducer: {
     // login: loginSlice,
-    // user: userSlice,
+    user: userSlice,
     userAuth: authSlice,
     [authApi.reducerPath]: authApi.reducer,
     [searchApi.reducerPath]: searchApi.reducer,

@@ -10,20 +10,14 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    getUserPending: (state) => {
-      state.isLoading = true;
-    },
     getUserSuccess: (state, { payload }) => {
-      state.isLoading = false;
       state.user = payload;
       state.error = "";
     },
-    getUserFail: (state, { payload }) => {
-      state.isLoading = false;
-      state.error = payload;
+    getUserBoolean: (state, { payload }) => {
+      state.isLoggedIn = payload;
     },
   },
 });
-export const { getUserPending, getUserSuccess, getUserFail } =
-  userSlice.actions;
-export const { actions, reducer } = userSlice;
+export const { getUserSuccess, getUserBoolean } = userSlice.actions;
+export default userSlice.reducer;
