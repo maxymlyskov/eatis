@@ -1,11 +1,22 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../constants";
+import authStorage from "../../auth/storage";
 
 export const getDayPlanner = createApi({
   reducerPath: "getDayPlanner",
   tagTypes: ["DayPlanner"],
   baseQuery: fetchBaseQuery({
     baseUrl: "http://192.168.1.106:4000/api/dayPlanner",
+    prepareHeaders: async (headers) => {
+      const token = await authStorage.getToken();
+      console.log(token);
+      // If we have a token set in state, let's assume that we should be passing it.
+      if (token) {
+        headers.set("x-auth-token", `${token}`);
+      }
+
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     getDayPlanner: builder.query({

@@ -17,6 +17,7 @@ import useAuth from "../auth/useAuth";
 import AppLoading from "expo-app-loading";
 import authStorage from "../auth/storage";
 import { getUserSuccess, getUserBoolean } from "../store/auth/userSlice";
+import AuthNavigation from "./AuthNavigation";
 
 function AppNavigator(props) {
   const Tab = createBottomTabNavigator();
@@ -67,7 +68,7 @@ function AppNavigator(props) {
     );
 
   if (!user.isLoggedIn) {
-    return <TestScreen />;
+    return <AuthNavigation />;
   }
 
   return (

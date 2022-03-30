@@ -3,18 +3,20 @@ import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 import colors from "../config/colors";
 
-function AppButton({ title, onPress, color = "silver" }) {
-  //   const [loaded] = useFonts({
-  //     YesevaOne: require("../../assets/fonts/YesevaOne.ttf"),
-  //   });
-
-  //   if (!loaded) {
-  //     return null;
-  //   }
-
+function AppButton({
+  title,
+  onPress,
+  backgroundColor = colors.green,
+  borderWidth,
+  borderColor,
+  color = "white",
+}) {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
+    <TouchableOpacity
+      style={[styles.button, { backgroundColor, borderWidth, borderColor }]}
+      onPress={onPress}
+    >
+      <Text style={[styles.text, { color }]}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -22,7 +24,7 @@ function AppButton({ title, onPress, color = "silver" }) {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.green,
-    borderRadius: 25,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     padding: 15,

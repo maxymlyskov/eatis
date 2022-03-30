@@ -19,11 +19,13 @@ import { analyzedInstructionsApi } from "./recipes/infoById/analyzedInstructions
 import { getDayPlanner } from "./saved/getDayPlanner";
 import { getWeekPlanner } from "./saved/getWeekPlanner";
 import authSlice from "./auth/authSlice";
+import registerSlice from "./auth/registerSlice";
 import { authApi } from "./auth/authApi";
 
 export const store = configureStore({
   reducer: {
     // login: loginSlice,
+    register: registerSlice,
     user: userSlice,
     userAuth: authSlice,
     [authApi.reducerPath]: authApi.reducer,

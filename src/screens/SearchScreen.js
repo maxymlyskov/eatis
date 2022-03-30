@@ -85,7 +85,7 @@ function SearchScreen({ navigation }) {
           alignItems: "center",
         }}
       >
-        <AppForm initialValues={{ search: "" }}>
+        <AppForm initialValues={{ search: "" }} styles={{ height: 80 }}>
           <AppFormField
             placeholder="Search recipe"
             icon="magnify"

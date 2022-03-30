@@ -57,23 +57,14 @@ export default function RecipeScreen({ navigation, route }) {
   };
 
   const { user } = useSelector((state) => state.user);
+
   console.log(user);
   if (isLoading)
     return <Screen style={{ backgroundColor: colors.green }}></Screen>;
 
   return (
     <Screen style={{ backgroundColor: "white", paddingHorizontal: 20 }}>
-      <AppButton
-        onPress={() => {
-          auth.logOut();
-        }}
-      />
-      <AppButton
-        onPress={() => {
-          handleLogin();
-        }}
-      />
-      {/* <Text></Text> */}
+      <AppButton onPress={() => auth.logOut()} />
       {data && (
         <>
           <RecipeHeader

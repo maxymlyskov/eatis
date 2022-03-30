@@ -1,40 +1,26 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../constants";
 import authStorage from "../../auth/storage";
-const handleGetToken = async () => {
-  const token = await authStorage.getToken();
-  return token;
-};
-
-handleGetToken().then((res) => console.log(res));
 
 export const getSearched = createApi({
   reducerPath: "getSearched",
   tagTypes: ["Recipes"],
   baseQuery: fetchBaseQuery({
     baseUrl: `http://192.168.1.106:4000/api/recipeSearch`,
+    prepareHeaders: async (headers) => {
+      const token = await authStorage.getToken();
+      console.log(token);
+      // If we have a token set in state, let's assume that we should be passing it.
+      if (token) {
+        headers.set("x-auth-token", `${token}`);
+      }
+
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     getSearched: builder.query({
-      query: () => {
-        return {
-          url: "/",
-          method: "GET",
-          headers: {
-            "x-auth-token": tok,
-          },
-        };
-      },
-      // prepareHeaders: async (headers) => {
-      //   const token = await authStorage.getToken();
-      //   console.log(token);
-      //   // If we have a token set in state, let's assume that we should be passing it.
-      //   if (token) {
-      //     headers.set("x-auth-token", `${token}`);
-      //   }
-
-      //   return headers;
-      // },
+      query: () => ``,
       providesTags: (result, error, arg) =>
         result
           ? [...result.map(({ id }) => ({ type: "Recipes", id })), "Recipes"]
