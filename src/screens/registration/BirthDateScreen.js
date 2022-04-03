@@ -52,10 +52,7 @@ function BirthDateScreen(props) {
 
   return (
     <>
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>Tap your birth date</Text>
-        </View>
+      <View>
         <TouchableWithoutFeedback
           onPress={() => {
             setMode("date");
@@ -97,36 +94,8 @@ function BirthDateScreen(props) {
           />
         )}
       </View>
-      <View style={styles.bottom}>
-        <Text style={styles.bottomText}>
-          We’ll use this to calculates and to create better recomendations for
-          you.
-        </Text>
-      </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { marginBottom: 180 },
-  text: {
-    fontFamily: "NunitoBold",
-    fontSize: 25,
-  },
-  textContainer: {
-    margin: 40,
-
-    marginBottom: 100,
-  },
-  bottom: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 100,
-  },
-  bottomText: {
-    color: colors.grey,
-    fontSize: 15,
-  },
-});
 
 export default BirthDateScreen;
