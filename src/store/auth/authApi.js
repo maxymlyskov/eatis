@@ -5,7 +5,7 @@ export const authApi = createApi({
   reducerPath: "getAuth",
   tagTypes: ["Users"],
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://192.168.1.106:4000/api`,
+    baseUrl: `http://192.168.0.106:4000/api`,
   }),
   endpoints: (builder) => ({
     // getSearched: builder.query({

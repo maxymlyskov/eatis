@@ -1,42 +1,75 @@
 import React from "react";
-import { 
-  View,
-  FlatList
-} from 'react-native';
+import { View, FlatList } from "react-native";
 
 import CardItem from "./CardItem";
 
-import colors from '../../config/colors';
-
-const nutrions = [
-  { id: '1', title: 'Breakfast', image: require('../../../assets/imgs/breakfast.png'), bg: colors.green, ingredients: 'Egg,\nToast,\nFriedBacon...', kcal: '375'},
-  { id: '2', title: 'Lunch', image: require('../../../assets/imgs/lunch.png'), bg: colors.purple, ingredients: 'Fried chicken,\nAvocado,\nTomatos...', kcal: '749'},
-  { id: '3', title: 'Dinner', image: require('../../../assets/imgs/dinner.png'), bg: colors.red, ingredients: '', kcal: '', recommendation: '608'},
-];
+import colors from "../../config/colors";
+import { useSelector } from "react-redux";
+import { useFilterTargetCaloriesQuery } from "../../store/recipes/plannerApi";
+import { useGetRecipeInfoQuery } from "../../store/recipes/infoById/infoApi";
+import Screen from "../Screen";
 
 export default function NutrionsFlatList({ navigation }) {
-  return (
-    <FlatList 
+  const calories = useSelector((state) => state.user.calories);
+  console.log(calories);
+  const { data, isLoading } = useFilterTargetCaloriesQuery(parseInt(calories));
+
+  const nutrions = [
+    {
+      id: data ? data.meals[0].id : null,
+      meals: data ? data.meals[0] : null,
+      title: data ? data.meals[0].title : null,
+      image: require("../../../assets/imgs/breakfast.png"),
+      bg: colors.green,
+      time: data ? data.meals[0].readyInMinutes : null,
+    },
+    {
+      id: data ? data.meals[1].id : null,
+      meals: data ? data.meals[1] : null,
+
+      title: data ? data.meals[1].title : null,
+      image: require("../../../assets/imgs/lunch.png"),
+      bg: colors.purple,
+      time: data ? data.meals[1].readyInMinutes : null,
+    },
+    {
+      id: data ? data.meals[2].id : null,
+      meals: data ? data.meals[2] : null,
+
+      title: data ? data.meals[2].title : null,
+      image: require("../../../assets/imgs/dinner.png"),
+      bg: colors.red,
+      time: data ? data.meals[2].readyInMinutes : null,
+    },
+  ];
+  if (isLoading) return <Screen></Screen>;
+
+  return data ? (
+    <FlatList
       horizontal
       bounces={false}
       showsHorizontalScrollIndicator={false}
-
       data={nutrions}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item, index }) => {
-        return (
-          <CardItem navigation={navigation} item={item}/>
-        );
-      }}
-
+      keyExtractor={(item, i) => item + i}
+      renderItem={({ item }) =>
+        data.meals && (
+          <CardItem
+            title={item.title}
+            time={item.time}
+            bg={item.bg}
+            image={item.image}
+            navigation={navigation}
+            onPress={() =>
+              navigation.navigate("RecipeDetailsScreen", item.meals)
+            }
+          />
+        )
+      }
       style={{
         flex: 1,
-        overflow: "visible"
+        overflow: "visible",
       }}
-
-      ItemSeparatorComponent={
-        () => <View style={{width: 10}} />
-      }
+      ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
     />
-  );
+  ) : null;
 }

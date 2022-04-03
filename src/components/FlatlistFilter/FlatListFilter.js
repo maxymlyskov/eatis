@@ -5,6 +5,7 @@ import Paginator from "./Paginator";
 import Plan from "./Plan";
 import Meals from "./Meals";
 import WeekPlan from "./WeekPlan";
+import Popular from "./Popular";
 
 const width = Dimensions.get("window").width;
 
@@ -27,7 +28,11 @@ export default function FlatListFilter({ data, navigation }) {
       text: "Meals",
       component: <Meals data={data} navigation={navigation} />,
     },
-    { id: "2", text: "Popular", component: <Text>123</Text> },
+    {
+      id: "2",
+      text: "Popular",
+      component: <Popular navigation={navigation} />,
+    },
     { id: "3", text: "Day", component: <Plan navigation={navigation} /> },
     {
       id: "4",

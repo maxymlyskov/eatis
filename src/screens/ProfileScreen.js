@@ -11,17 +11,16 @@ import { useSelector } from "react-redux";
 
 export default function ProfileScreen() {
   const { user } = useSelector((state) => state.user);
+  console.log(user.birthDate);
+  const dateBorn = new Date(user.birthDate);
+  const dateNow = new Date();
+  const years = dateNow.getFullYear() - dateBorn.getFullYear();
+
   const data = [
-    { type: "Goal", info: `${user.goal} weight` },
-    { type: "Gendre", info: user.gender },
-    { type: "Age", info: "17" },
-    { type: "", info: "" },
-    { type: "", info: "" },
-    { type: "", info: "" },
-    { type: "", info: "" },
-    { type: "", info: "" },
-    { type: "", info: "" },
-    { type: "", info: "" },
+    { type: "Goal", info: user.goal },
+    { type: "Gender", info: user.gender },
+    { type: "Age", info: years },
+    { type: "Activity", info: user.activity },
   ];
 
   return (
@@ -91,7 +90,7 @@ export default function ProfileScreen() {
                   padding: 10,
                 }}
               >
-                <Text style={fonts.Bold24}>Denlich</Text>
+                <Text style={fonts.Bold24}>{user.name}</Text>
                 <MaterialCommunityIcons
                   size={24}
                   name="chevron-down"
@@ -102,7 +101,7 @@ export default function ProfileScreen() {
               <View style={{ flexDirection: "row" }}>
                 <View style={{ flex: 1, alignItems: "center" }}>
                   <Text style={fonts.Bold18}>Current height</Text>
-                  <Text style={fonts.Bold24}>{user.height} kg</Text>
+                  <Text style={fonts.Bold24}>{user.height} cm</Text>
                 </View>
 
                 <View

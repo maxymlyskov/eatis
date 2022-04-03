@@ -31,7 +31,6 @@ function EndingScreen(props) {
   const register = useSelector((state) => state.register);
 
   const handleRegister = async ({ email, password, name }) => {
-    console.log(email);
     try {
       await addUser({
         email: email,
@@ -42,6 +41,7 @@ function EndingScreen(props) {
         height: register.height,
         goal: register.goal,
         birthDate: register.birthDate,
+        activity: register.activity,
       }).unwrap();
       const result = await addAuth({
         email: email,

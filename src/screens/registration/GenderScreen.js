@@ -19,28 +19,28 @@ function GenderScreen(props) {
         <View style={{ padding: 10 }}>
           <AppButton
             title="Male"
-            backgroundColor={color === "male" ? colors.green : "white"}
-            borderColor={color === "male" ? "white" : colors.black}
-            color={color === "male" ? "white" : colors.black}
+            backgroundColor={color === "Male" ? colors.green : "white"}
+            borderColor={color === "Male" ? "white" : colors.black}
+            color={color === "Male" ? "white" : colors.black}
             borderWidth={1}
             onPress={() => {
-              dispatch(getGender("male"));
+              dispatch(getGender("Male"));
               console.log(register);
-              setColor("male");
+              setColor("Male");
             }}
           />
         </View>
         <View style={{ padding: 10 }}>
           <AppButton
             title="Female"
-            backgroundColor={color === "female" ? colors.green : "white"}
-            borderColor={color === "female" ? "white" : colors.black}
-            color={color === "female" ? "white" : colors.black}
+            backgroundColor={color === "Female" ? colors.green : "white"}
+            borderColor={color === "Female" ? "white" : colors.black}
+            color={color === "Female" ? "white" : colors.black}
             borderWidth={1}
             onPress={() => {
-              dispatch(getGender("female"));
+              dispatch(getGender("Female"));
               console.log(register);
-              setColor("female");
+              setColor("Female");
             }}
           />
         </View>

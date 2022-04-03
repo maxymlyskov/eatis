@@ -20,42 +20,42 @@ function GoalScreen({}) {
         <View style={{ padding: 10 }}>
           <AppButton
             title="Lose weight"
-            backgroundColor={color === "lose" ? colors.green : "white"}
+            backgroundColor={color === "Lose Weight" ? colors.green : "white"}
+            borderColor={color === "Lose Weight" ? "white" : colors.black}
+            color={color === "Lose Weight" ? "white" : colors.black}
             borderWidth={1}
-            borderColor={color === "lose" ? "white" : colors.black}
-            color={color === "lose" ? "white" : colors.black}
             onPress={() => {
-              dispatch(getGoal("lose"));
+              dispatch(getGoal("Los eWeight"));
               console.log(register);
-              setColor("lose");
+              setColor("Los eWeight");
             }}
           />
         </View>
         <View style={{ padding: 10 }}>
           <AppButton
             title="Save weight"
-            backgroundColor={color === "save" ? colors.green : "white"}
+            backgroundColor={color === "Save weight" ? colors.green : "white"}
             borderWidth={1}
-            borderColor={color === "save" ? "white" : colors.black}
-            color={color === "save" ? "white" : colors.black}
+            borderColor={color === "Save weight" ? "white" : colors.black}
+            color={color === "Save weight" ? "white" : colors.black}
             onPress={() => {
-              dispatch(getGoal("save"));
+              dispatch(getGoal("Save weight"));
               console.log(register);
-              setColor("save");
+              setColor("Save weight");
             }}
           />
         </View>
         <View style={{ padding: 10 }}>
           <AppButton
             title="Gain weight"
-            backgroundColor={color === "gain" ? colors.green : "white"}
+            backgroundColor={color === "Gain weight" ? colors.green : "white"}
             borderWidth={1}
-            borderColor={color === "gain" ? "white" : colors.black}
-            color={color === "gain" ? "white" : colors.black}
+            borderColor={color === "Gain weight" ? "white" : colors.black}
+            color={color === "Gain weight" ? "white" : colors.black}
             onPress={() => {
-              dispatch(getGoal("gain"));
+              dispatch(getGoal("Gain weight"));
               console.log(register);
-              setColor("gain");
+              setColor("Gain weight");
             }}
           />
         </View>

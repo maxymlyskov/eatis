@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  weight: "",
-  height: "",
+  weight: null,
+  height: null,
   gender: "",
-  birthDate: "",
+  birthDate: Date,
   goal: "",
-  goal: {},
+  activity: "",
   bodyType: "",
 };
 
@@ -29,6 +29,9 @@ const registerSlice = createSlice({
     getGoal: (state, { payload }) => {
       state.goal = payload;
     },
+    getActivity: (state, { payload }) => {
+      state.activity = payload;
+    },
     getBodyType: (state, { payload }) => {
       state.bodyType = payload;
     },
@@ -41,5 +44,6 @@ export const {
   getGoal,
   getHeight,
   getWeight,
+  getActivity,
 } = registerSlice.actions;
 export default registerSlice.reducer;

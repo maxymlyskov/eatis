@@ -6,7 +6,7 @@ export const getSearched = createApi({
   reducerPath: "getSearched",
   tagTypes: ["Recipes"],
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://192.168.1.106:4000/api/recipeSearch`,
+    baseUrl: `http://192.168.0.106:4000/api/recipeSearch`,
     prepareHeaders: async (headers) => {
       const token = await authStorage.getToken();
       console.log(token);
@@ -21,6 +21,13 @@ export const getSearched = createApi({
   endpoints: (builder) => ({
     getSearched: builder.query({
       query: () => ``,
+      providesTags: (result, error, arg) =>
+        result
+          ? [...result.map(({ id }) => ({ type: "Recipes", id })), "Recipes"]
+          : ["Recipes"],
+    }),
+    getPopular: builder.query({
+      query: () => `/wall`,
       providesTags: (result, error, arg) =>
         result
           ? [...result.map(({ id }) => ({ type: "Recipes", id })), "Recipes"]
@@ -55,6 +62,7 @@ export const getSearched = createApi({
 });
 export const {
   useGetSearchedQuery,
+  useGetPopularQuery,
   useAddSearchedMutation,
   useDeleteSearchedMutation,
 } = getSearched;

@@ -10,6 +10,12 @@ export const ingredientsSearchApi = createApi({
     getSearchIngridients: builder.query({
       query: (query) => `search${AUTH}${query && `&query=${query}`}`,
     }),
+    getSearchIngridietnsDetailed: builder.query({
+      query: (query) => `search${AUTH}${query && `&query=${query}`}`,
+    }),
   }),
 });
-export const { useGetSearchIngridientsQuery } = ingredientsSearchApi;
+export const {
+  useGetSearchIngridientsQuery,
+  useGetSearchIngridietnsDetailedQuery,
+} = ingredientsSearchApi;

@@ -9,6 +9,7 @@ import StepsScreen from "../screens/StepsScreen";
 import SavedDayPlannerScreen from "../screens/SavedDayPlannerScreen";
 import WeekPlannerScreen from "../screens/WeekPlannerScreen";
 import IngredientDetailsScreen from "../screens/IngredientDetailsScreen";
+import PluseScreen from "../screens/PluseScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ export default function RecipeStack() {
         component={SavedDayPlannerScreen}
       />
       <Stack.Screen name="WeekPlannerScreen" component={WeekPlannerScreen} />
+      <Stack.Screen name="PluseScreen" component={PluseScreen} />
     </Stack.Navigator>
   );
 }

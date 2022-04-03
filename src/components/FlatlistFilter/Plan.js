@@ -4,17 +4,41 @@ import { View, Text, FlatList, StyleSheet } from "react-native";
 import { useGetDayPlannerQuery } from "../../store/recipes/plannerApi";
 
 import RecipeCard from "../../components/RecipeCard";
+import { useSelector } from "react-redux";
 
 export default function Plan({ navigation }) {
-  const dayPlannerVegeterian = useGetDayPlannerQuery("vegeterian");
-  const dayPlannerKetogenic = useGetDayPlannerQuery("ketogenic");
-  const dayPlannerPaleo = useGetDayPlannerQuery("paleo");
-  const dayPlannerPescetarian = useGetDayPlannerQuery("pescetarian");
-  const dayPlannerLowFODMAP = useGetDayPlannerQuery("LowFODMAP");
-  const dayPlannerLactoVegetarian = useGetDayPlannerQuery("lacto-vegeterian");
-  const dayPlannerPrimal = useGetDayPlannerQuery("Primal");
-  const dayPlannerWhole30 = useGetDayPlannerQuery("Whole30");
-  const dayPlannerGlutenFree = useGetDayPlannerQuery("GlutenFree");
+  const calories = useSelector((state) => state.user.calories);
+
+  const dayPlannerVegeterian = useGetDayPlannerQuery(
+    "vegeterian",
+    parseInt(calories)
+  );
+  const dayPlannerKetogenic = useGetDayPlannerQuery(
+    "ketogenic",
+    parseInt(calories)
+  );
+  const dayPlannerPaleo = useGetDayPlannerQuery("paleo", parseInt(calories));
+  const dayPlannerPescetarian = useGetDayPlannerQuery(
+    "pescetarian",
+    parseInt(calories)
+  );
+  const dayPlannerLowFODMAP = useGetDayPlannerQuery(
+    "LowFODMAP",
+    parseInt(calories)
+  );
+  const dayPlannerLactoVegetarian = useGetDayPlannerQuery(
+    "lacto-vegeterian",
+    parseInt(calories)
+  );
+  const dayPlannerPrimal = useGetDayPlannerQuery("Primal", parseInt(calories));
+  const dayPlannerWhole30 = useGetDayPlannerQuery(
+    "Whole30",
+    parseInt(calories)
+  );
+  const dayPlannerGlutenFree = useGetDayPlannerQuery(
+    "GlutenFree",
+    parseInt(calories)
+  );
 
   const diets = [
     {

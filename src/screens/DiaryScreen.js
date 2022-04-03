@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView, Dimensions, FlatList } from "react-native";
+import { View, Text, ScrollView, Dimensions, StyleSheet } from "react-native";
 
 import Screen from "../components/Screen";
 import MyCalendar from "../components/Calendar";
@@ -11,12 +11,13 @@ import fonts from "../styles/fonts";
 
 const { width, height } = Dimensions.get("window");
 
-export default function DiartScreen({ navigation, route }) {
+export default function DiaryScreen({ navigation, route }) {
   return (
     <Screen>
       <ScrollView
         contentContainerStyle={{
           paddingHorizontal: 20,
+          paddingTop: 80,
         }}
       >
         <View style={styles.titleContainer}>
@@ -29,7 +30,7 @@ export default function DiartScreen({ navigation, route }) {
           <InfoCard />
         </View>
 
-        <Text style={fonts.Bold24}>Nutrion</Text>
+        <Text style={fonts.Bold24}>Recommended for today</Text>
 
         <View>
           <NutrionsFlatList navigation={navigation} />
@@ -38,3 +39,8 @@ export default function DiartScreen({ navigation, route }) {
     </Screen>
   );
 }
+const style = StyleSheet.create({
+  container: {
+    marginTop: Dimensions.get("window").height / 4,
+  },
+});

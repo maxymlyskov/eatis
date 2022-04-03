@@ -40,7 +40,7 @@ export const store = configureStore({
     [ingredientApi.reducerPath]: ingredientApi.reducer,
     [analyzedInstructionsApi.reducerPath]: analyzedInstructionsApi.reducer,
     // [priceApi.reducerPath]: priceApi.reducer,
-    // [similarApi.reducerPath]: similarApi.reducer,
+    [similarApi.reducerPath]: similarApi.reducer,
     // [tasteApi.reducerPath]: tasteApi.reducer,
     [optionalApi.reducerPath]: optionalApi.reducer,
     [plannerApi.reducerPath]: plannerApi.reducer,
@@ -64,7 +64,8 @@ export const store = configureStore({
       .concat(getWeekPlanner.middleware)
       .concat(ingredientsSearchApi.middleware)
       .concat(authApi.middleware)
-      .concat(ingredientApi.middleware),
+      .concat(ingredientApi.middleware)
+      .concat(similarApi.middleware),
 });
 
 setupListeners(store.dispatch);

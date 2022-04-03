@@ -14,6 +14,7 @@ import AppButton from "../../components/AppButton";
 import colors from "../../config/colors";
 import GenderScreen from "./GenderScreen";
 import BirthDateScreen from "./BirthDateScreen";
+import ActivityScreen from "./ActivityScreen";
 import HeightScreen from "./HeightScreen";
 import WeightScreen from "./WeightScreen";
 import EndingScreen from "./EndingScreen";
@@ -67,6 +68,9 @@ function RegisterScreen(props) {
       <View style={styles.slide1}>{<GoalScreen />}</View>
       <View style={styles.slide2}>
         <GenderScreen />
+      </View>
+      <View style={styles.slide2}>
+        <ActivityScreen />
       </View>
       <View style={styles.slide3}>
         <BirthDateScreen />

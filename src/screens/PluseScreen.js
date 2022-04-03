@@ -42,7 +42,7 @@ export default function PluseScreen({ navigation }) {
   const bottomSheetRef = useRef(BottomSheet);
 
   // variables
-  const snapPoints = useMemo(() => ["80%", "100%"], []);
+  const snapPoints = useMemo(() => ["80%", "95%"], []);
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
@@ -67,7 +67,7 @@ export default function PluseScreen({ navigation }) {
       <View style={{ opacity: isOpen ? 0.1 : 1 }}>
         <ScrollView
           contentContainerStyle={{
-            paddingHorizontal: 20,
+            padding: 20,
           }}
         >
           <View style={styles.titleContainer}>

@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import colors from "../config/colors";
 
 function RecipeHeader({ onPressFormat, onPressSearch }) {
@@ -11,11 +11,7 @@ function RecipeHeader({ onPressFormat, onPressSearch }) {
       </TouchableOpacity>
       <View style={styles.search}>
         <TouchableOpacity onPress={onPressFormat}>
-          <MaterialCommunityIcons
-            size={25}
-            name="information-outline"
-            color={colors.grey}
-          />
+          <Text style={styles.ingredients}>Ingredients</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -26,8 +22,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 10,
     // paddingHorizontal: 10,
+  },
+  ingredients: {
+    fontFamily: "NunitoBold",
+    color: colors.grey,
   },
 });
 
