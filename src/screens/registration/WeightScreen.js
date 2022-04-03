@@ -17,16 +17,11 @@ function WeightScreen(props) {
   const dispatch = useDispatch();
   const register = useSelector((state) => state.register.weight);
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>Write your weight</Text>
-        </View>
-      </View>
+    <View style={{flex: 0.2}}>
       <AppForm
         initialValues={{ weight: "" }}
         onSubmit={() => console.log("dsa")}
-        styles={{ marginHorizontal: 110 }}
+        // styles={{flex: 1}}
       >
         <AppFormField
           placeholder="Weight (kg)"
@@ -42,35 +37,8 @@ function WeightScreen(props) {
           onSubmitEditing={console.log(weight)}
         />
       </AppForm>
-      <View style={styles.bottom}>
-        <Text style={styles.bottomText}>
-          We’ll use this to calculates and to create better recomendations for
-          you.
-        </Text>
-      </View>
-    </>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {},
-  text: {
-    fontFamily: "NunitoBold",
-    fontSize: 25,
-  },
-  textContainer: {
-    marginTop: 165,
-    marginBottom: 70,
-  },
-  bottom: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 125,
-  },
-  bottomText: {
-    color: colors.grey,
-    fontSize: 15,
-  },
-});
 
 export default WeightScreen;

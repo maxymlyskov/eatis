@@ -53,13 +53,7 @@ function EndingScreen(props) {
     }
   };
   return (
-    <Screen style={styles.container}>
-      <View style={styles.text}>
-        <Text style={styles.signinText}>Let`s end it</Text>
-        <View style={styles.credits}>
-          <Text style={styles.creditsText}>Enter your credits to continue</Text>
-        </View>
-      </View>
+    <View style={{flex: .5}}>
       <AppForm
         initialValues={{ email: "", password: "", name: "" }}
         validationSchema={validationSchema}
@@ -90,50 +84,23 @@ function EndingScreen(props) {
           autoCorrect={false}
           secureTextEntry
         />
-        <View style={styles.button}>
+        
+        <View style={styles.submitButton}>
           <SubmitButton title="Sign Up" />
         </View>
       </AppForm>
-    </Screen>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 150,
-    paddingHorizontal: 10,
-    justifyContent: "center",
     flex: 1,
   },
-  logo: {
-    alignSelf: "center",
-    marginTop: 50,
-    marginBottom: 20,
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
-  button: {
-    paddingHorizontal: 100,
-    marginTop: Dimensions.get("window").height / 20,
-  },
-  signinText: {
-    fontSize: 25,
-    fontFamily: "NunitoBold",
-  },
-  creditsText: {
-    fontSize: 15,
-    color: colors.grey,
-    fontFamily: "NunitoBold",
-  },
-  text: {
-    marginTop: -35,
-    marginBottom: 30,
-    marginHorizontal: 20,
-  },
-  credits: {
-    marginVertical: 4,
-  },
+
+  submitButton: {
+    marginTop: 50
+  }
 });
 
 export default EndingScreen;

@@ -6,12 +6,10 @@ import {
   Animated,
   Dimensions,
   Text,
+  FlatList,
 } from "react-native";
-import Swiper from "react-native-swiper";
 
 import GoalScreen from "./GoalScreen";
-import AppButton from "../../components/AppButton";
-import colors from "../../config/colors";
 import GenderScreen from "./GenderScreen";
 import BirthDateScreen from "./BirthDateScreen";
 import ActivityScreen from "./ActivityScreen";
@@ -19,121 +17,140 @@ import HeightScreen from "./HeightScreen";
 import WeightScreen from "./WeightScreen";
 import EndingScreen from "./EndingScreen";
 
-function RegisterScreen(props) {
-  const swiper = useRef(null);
+import Screen from "../../components/Screen";
+import AppButton from "../../components/AppButton";
+
+import colors from "../../config/colors";
+import fonts from "../../styles/fonts";
+
+const width = Dimensions.get("window").width;
+const slides = [
+  { id: "1", title: "What`s your goal?", comp: <GoalScreen /> },
+  { id: "2", title: "Choose your gender", comp: <GenderScreen /> },
+  { id: "3", title: "Choose your birth date", comp: <BirthDateScreen /> },
+  { id: "4", title: "Write your height", comp: <HeightScreen /> },
+  { id: "5", title: "Write your weight", comp: <WeightScreen /> },
+  { id: "6", title: "Let's end it", subTitle: "", comp: <EndingScreen /> },
+];
+
+function RegisterScreen() {
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const ref = useRef();
+  const updateCurrentSlideIndex = (e) => {
+    const contentOffsetX = e.nativeEvent.contentOffset.x;
+    const currentIndex = Math.round(contentOffsetX / width);
+    setCurrentSlideIndex(currentIndex);
+  };
+
+  const goToNextSlide = () => {
+    const nextSlideIndex = currentSlideIndex + 1;
+    if (nextSlideIndex != slides.length) {
+      const offset = nextSlideIndex * width;
+      ref?.current.scrollToOffset({ offset });
+      setCurrentSlideIndex(currentSlideIndex + 1);
+    }
+  };
+
+  const goBack = () => {
+    const nextSlideIndex = currentSlideIndex - 1;
+    if (nextSlideIndex >= 0) {
+      const offset = nextSlideIndex * width;
+      ref?.current.scrollToOffset({ offset });
+      setCurrentSlideIndex(currentSlideIndex - 1);
+    }
+  };
+
   return (
-    <Swiper
-      style={styles.wrapper}
-      showsButtons={true}
-      index={0}
-      loop
-      ref={swiper}
-      buttonWrapperStyle={{
-        backgroundColor: "transparent",
-        flexDirection: "row",
-        position: "absolute",
-        top: 0,
-        left: 0,
-        flex: 1,
-        paddingHorizontal: 10,
-        marginTop: 350,
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-      nextButton={
-        <View style={styles.nextB}>
-          <Text style={styles.next}>Next</Text>
-        </View>
-      }
-      prevButton={
-        <View style={styles.backB}>
-          <Text style={styles.next}>Back</Text>
-        </View>
-      }
-      activeDot={
-        <View
-          style={{
-            backgroundColor: colors.green,
-            width: 14,
-            height: 8,
-            borderRadius: 4,
-            marginLeft: 3,
-            marginRight: 3,
-            marginTop: 3,
-            marginBottom: 3,
+    <Screen>
+      <View style={{ flex: 1 }}>
+        <FlatList
+          data={slides}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  width: width,
+                  paddingHorizontal: 20,
+                }}
+              >
+                <View style={{ flex: 1, justifyContent: "space-around" }}>
+                  <View style={styles.textContainer}>
+                    <Text style={[fonts.Bold24, styles.text]}>
+                      {item.title}
+                    </Text>
+                  </View>
+                  {item.comp}
+                  <View style={styles.bottom}>
+                    <Text style={[fonts.Regular16, styles.bottomText]}>
+                      We’ll use this to calculates and to create better
+                      recomendations for you.
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            );
           }}
+          onMomentumScrollEnd={updateCurrentSlideIndex}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          pagingEnabled
+          snapToInterval={width}
+          scrollEnabled={false}
+          ref={ref}
         />
-      }
-    >
-      <View style={styles.slide1}>{<GoalScreen />}</View>
-      <View style={styles.slide2}>
-        <GenderScreen />
       </View>
-      <View style={styles.slide2}>
-        <ActivityScreen />
+
+      <View style={styles.row}>
+        <View style={{ flex: 1 }}>
+          <TouchableWithoutFeedback onPress={goBack}>
+            <Text style={[fonts.Bold24, styles.backB]}>Back</Text>
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={{ flex: 2 }}>
+          <TouchableWithoutFeedback onPress={goToNextSlide}>
+            <Text style={[fonts.Bold24, styles.nextB]}>Next</Text>
+          </TouchableWithoutFeedback>
+        </View>
       </View>
-      <View style={styles.slide3}>
-        <BirthDateScreen />
-      </View>
-      <View style={styles.slide3}>
-        <HeightScreen />
-      </View>
-      <View style={styles.slide3}>
-        <WeightScreen />
-      </View>
-      <View style={styles.slide3}>
-        <EndingScreen />
-      </View>
-    </Swiper>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 20,
+    marginHorizontal: 20,
+    marginBottom: 20,
   },
-  slide1: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  text: {
-    color: "#fff",
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  next: {
-    fontSize: 20,
-    fontFamily: "NunitoBold",
-    color: "white",
-  },
-  nextB: {
-    backgroundColor: colors.green,
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    borderRadius: 80,
-  },
+
   backB: {
-    backgroundColor: colors.grey,
-    paddingHorizontal: 30,
+    flex: 1,
+    color: colors.grey,
+    textAlign: "left",
+    textAlignVertical: "center",
+  },
+
+  nextB: {
+    color: "#fff",
+    backgroundColor: colors.green,
+    width: "100%",
     paddingVertical: 15,
-    borderRadius: 80,
+    textAlign: "center",
+    borderRadius: 10,
+  },
+
+  bottom: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  bottomText: {
+    color: colors.grey,
+    textAlign: "center",
   },
 });
 

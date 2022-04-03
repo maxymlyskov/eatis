@@ -12,10 +12,7 @@ function GenderScreen(props) {
   const [color, setColor] = useState("");
   return (
     <>
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>Choose your gender</Text>
-        </View>
+      <View>
         <View style={{ padding: 10 }}>
           <AppButton
             title="Male"
@@ -45,35 +42,8 @@ function GenderScreen(props) {
           />
         </View>
       </View>
-      <View style={styles.bottom}>
-        <Text style={styles.bottomText}>
-          We’ll use this to calculates and to create better recomendations for
-          you.
-        </Text>
-      </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { marginBottom: 193 },
-  text: {
-    fontFamily: "NunitoBold",
-    fontSize: 25,
-  },
-  textContainer: {
-    margin: 40,
-
-    marginBottom: 80,
-  },
-  bottom: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  bottomText: {
-    color: colors.grey,
-    fontSize: 15,
-  },
-});
 
 export default GenderScreen;

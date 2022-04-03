@@ -19,16 +19,10 @@ function HeightScreen(props) {
   const dispatch = useDispatch();
   const register = useSelector((state) => state.register.height);
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>Write your height</Text>
-        </View>
-      </View>
+    <View style={{flex: 0.2}}>
       <AppForm
         initialValues={{ height: "" }}
         onSubmit={() => console.log("dsa")}
-        styles={{ marginHorizontal: 110 }}
       >
         <AppFormField
           placeholder="Height (cm)"
@@ -44,35 +38,8 @@ function HeightScreen(props) {
           onSubmitEditing={console.log(height)}
         />
       </AppForm>
-      <View style={styles.bottom}>
-        <Text style={styles.bottomText}>
-          We’ll use this to calculates and to create better recomendations for
-          you.
-        </Text>
-      </View>
-    </>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {},
-  text: {
-    fontFamily: "NunitoBold",
-    fontSize: 25,
-  },
-  textContainer: {
-    marginTop: 165,
-    marginBottom: 70,
-  },
-  bottom: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 125,
-  },
-  bottomText: {
-    color: colors.grey,
-    fontSize: 15,
-  },
-});
 
 export default HeightScreen;
