@@ -11,4 +11,5 @@ export default {
   blue: "#3045cf",
   salat: "#a2e317",
   yellow: "#a6b336",
+  danger: "#bf0b0b",
 };

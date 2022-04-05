@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import CircularProgress from "react-native-circular-progress-indicator";
 import InfoItem from "./InfoItem";
 import LeftStatistic from "./LeftStatistic";
@@ -11,7 +11,54 @@ import colors from "../../config/colors";
 import fonts from "../../styles/fonts";
 
 export default function InfoCard() {
+  const [eat, setEat] = useState(0);
+  const [data, setData] = useState(0);
+  const [check, setCheck] = useState(0);
+  const [color, setColor] = useState(colors.green);
+
   const { user } = useSelector((state) => state.user);
+  const eaten = useSelector((state) => state.user.eaten);
+
+  const getKey = async () => {
+    let eatenKey = await AsyncStorage.getItem("eatenKey");
+    let dataKey = await AsyncStorage.getItem("dataKey");
+    let parsed = JSON.parse(eatenKey);
+    let parsedData = JSON.parse(dataKey);
+    console.log(parsedData);
+    return parsed;
+  };
+  const getData = async () => {
+    let dataKey = await AsyncStorage.getItem("dataKey");
+    let parsedData = JSON.parse(dataKey);
+    console.log(parsedData);
+    return parsedData;
+  };
+  useEffect(async () => {
+    getData().then(async (res) => {
+      setData(res);
+      const dataNow = new Date().getDate();
+      if (dataNow != res) {
+        await AsyncStorage.removeItem("eatenKey");
+        console.log(data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getKey().then((res) => setCheck(res));
+  }, []);
+  useEffect(() => {
+    getKey().then((res) => {
+      if (check === res) setEat(res + eaten);
+      else {
+        setEat(res);
+      }
+    });
+  }, [eaten]);
+  useEffect(() => {
+    if (eat > BMR) setColor(colors.danger);
+  }, [eat]);
+
   const dispatch = useDispatch();
   const dateBorn = new Date(user.birthDate);
   const dateNow = new Date();
@@ -153,7 +200,7 @@ export default function InfoCard() {
             <LeftStatistic
               source={require("../../../assets/imgs/cookies.png")}
               title="Eaten"
-              statisticText="1124"
+              statisticText={eat}
             />
             <LeftStatistic
               source={require("../../../assets/imgs/calories.webp")}
@@ -170,15 +217,18 @@ export default function InfoCard() {
             }}
           >
             <CircularProgress
-              value={1124}
+              value={eat}
               maxValue={BMR}
-              textColor={colors.green}
+              textColor={color}
+              progressValueColor={colors.red}
+              clockwise
               textStyle={fonts.Bold24}
               titleStyle={[fonts.semiBold14, { color: colors.grey }]}
               titleColor={colors.grey}
+              activeStrokeColor={color}
               title={"kcal eaten"}
               radius={65}
-              inActiveStrokeColor={colors.green}
+              inActiveStrokeColor={color}
               inActiveStrokeOpacity={0.1}
             />
           </View>
@@ -188,13 +238,31 @@ export default function InfoCard() {
 
         <View style={{ flex: 0.3, flexDirection: "row" }}>
           <View style={{ flex: 1 }}>
-            <InfoItem title={"Protein"} max={parseInt(BMR * 0.3)} eaten={40} />
+            <InfoItem
+              title={"Protein"}
+              max={parseInt(BMR * 0.075)}
+              eaten={parseInt(eat * 0.075)}
+              backgroundColor={color}
+              borderColor={color}
+            />
           </View>
           <View style={{ flex: 1, marginHorizontal: 30 }}>
-            <InfoItem title={"Carbs"} max={parseInt(BMR * 0.5)} eaten={195} />
+            <InfoItem
+              title={"Carbs"}
+              max={parseInt(BMR * 0.08)}
+              backgroundColor={color}
+              borderColor={color}
+              eaten={parseInt(eat * 0.08)}
+            />
           </View>
           <View style={{ flex: 1 }}>
-            <InfoItem title={"Fat"} max={parseInt(BMR * 0.2)} eaten={38} />
+            <InfoItem
+              title={"Fat"}
+              backgroundColor={color}
+              borderColor={color}
+              max={parseInt(BMR * 0.02)}
+              eaten={parseInt(eat * 0.02)}
+            />
           </View>
         </View>
       </View>

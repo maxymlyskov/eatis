@@ -1,4 +1,10 @@
-import React, { useState, useRef, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+  useEffect,
+} from "react";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 import {
@@ -24,11 +30,20 @@ import { useGetNutritionByIdQuery } from "../store/recipes/infoById/nutritionApi
 import { useAddSearchedMutation } from "../store/saved/getSearched";
 import AnimatedHeader from "../components/AnimatedHeader";
 import IngridientsCard from "../components/IngridientsCard";
+import { getEaten } from "../store/auth/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import AppButton from "../components/AppButton";
 import { imageURL } from "../store/constants";
 import BottomSheetHeader from "../components/BottomSheetHeader";
+import BottomButton from "../components/BottomButton";
 
 function RecipeDetailsScreen({ route, navigation }) {
+  const [eat, setEat] = useState(0);
+  const dispatch = useDispatch();
+  const eaten = useSelector((state) => state.user.eaten);
+
   const recipe = route.params;
   const offset = useRef(new Animated.Value(0)).current;
   let [number, setNumber] = React.useState(1);
@@ -42,6 +57,19 @@ function RecipeDetailsScreen({ route, navigation }) {
   const [id, setId] = useState(0);
   const infoIng = useGetInfoIngridientQuery(id);
   console.log(infoIng.data);
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("eatenKey", value);
+      await AsyncStorage.setItem(
+        "dataKey",
+        JSON.stringify(new Date().getDate())
+      );
+    } catch (e) {
+      // saving error
+    }
+  };
+
   // ref
   const bottomSheetRef = useRef(BottomSheet);
 
@@ -218,12 +246,16 @@ function RecipeDetailsScreen({ route, navigation }) {
                 marginBottom: 20,
               }}
             />
-            <View style={styles.button}>
-              <AppButton
-                title={"Make it now"}
-                onPress={() => navigation.navigate("StepsScreen", info.data.id)}
-              />
-            </View>
+
+            <BottomButton
+              onPressAnimated={() => {
+                dispatch(getEaten(parseInt(nutrition.data.calories)));
+                storeData(JSON.stringify(eat + eaten));
+              }}
+              onPressMake={() =>
+                navigation.navigate("StepsScreen", info.data.id)
+              }
+            />
           </Animated.ScrollView>
         </>
       ) : null}
@@ -326,10 +358,6 @@ const styles = StyleSheet.create({
   ingridients: {
     paddingVertical: 10,
     paddingLeft: 15,
-  },
-  button: {
-    justifyContent: "center",
-    margin: 20,
   },
 });
 

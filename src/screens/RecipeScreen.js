@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 
 import Screen from "../components/Screen";
 import RecipeHeader from "../components/RecipeHeader";
+import styles from "../config/styles";
 import FlatListFilter from "../components/FlatlistFilter/FlatListFilter";
 
 export default function RecipeScreen({ navigation, route }) {

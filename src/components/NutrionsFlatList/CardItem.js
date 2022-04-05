@@ -12,6 +12,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import fonts from "../../styles/fonts";
 import colors from "../../config/colors";
+import * as SecureStore from "expo-secure-store";
 
 const { width, height } = Dimensions.get("window");
 
@@ -22,11 +23,12 @@ export default function CardItem({
   image,
   bg,
   onPress,
+  onLongPress,
 }) {
   let ingredients;
 
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <TouchableWithoutFeedback onPress={onPress} onLongPress={onLongPress}>
       <View style={{ alignItems: "center" }}>
         <View
           style={{

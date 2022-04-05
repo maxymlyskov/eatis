@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import * as SecureStore from "expo-secure-store";
 
 const initialState = {
   user: {},
   isLoading: false,
   error: "",
   calories: null,
+  eaten: 0,
 };
 
 const userSlice = createSlice({
@@ -21,8 +23,11 @@ const userSlice = createSlice({
     getCalories: (state, { payload }) => {
       state.calories = payload;
     },
+    getEaten: (state, { payload }) => {
+      state.eaten += payload;
+    },
   },
 });
-export const { getUserSuccess, getUserBoolean, getCalories } =
+export const { getUserSuccess, getUserBoolean, getCalories, getEaten } =
   userSlice.actions;
 export default userSlice.reducer;

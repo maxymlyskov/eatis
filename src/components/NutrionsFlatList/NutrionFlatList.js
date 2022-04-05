@@ -1,16 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, FlatList } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import CardItem from "./CardItem";
 
 import colors from "../../config/colors";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFilterTargetCaloriesQuery } from "../../store/recipes/plannerApi";
 import { useGetRecipeInfoQuery } from "../../store/recipes/infoById/infoApi";
 import Screen from "../Screen";
+import { getEaten } from "../../store/auth/userSlice";
 
 export default function NutrionsFlatList({ navigation }) {
+  const dispatch = useDispatch();
   const calories = useSelector((state) => state.user.calories);
+  const eaten = useSelector((state) => state.user.eaten);
+  const [eat, setEat] = useState(0);
+
+  const getKey = async () => {
+    let eatenKey = await AsyncStorage.getItem("eatenKey");
+    let parsed = JSON.parse(eatenKey);
+    console.log(parsed);
+    return parsed;
+  };
+  const storeData = async (value) => {
+    try {
+      AsyncStorage.setItem("eatenKey", value);
+      AsyncStorage.setItem("dataKey", JSON.stringify(new Date().getDate()));
+    } catch (e) {
+      // saving error
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getKey().then((res) => setEat(res));
+  }, []);
   console.log(calories);
   const { data, isLoading } = useFilterTargetCaloriesQuery(parseInt(calories));
 
@@ -22,6 +46,7 @@ export default function NutrionsFlatList({ navigation }) {
       image: require("../../../assets/imgs/breakfast.png"),
       bg: colors.green,
       time: data ? data.meals[0].readyInMinutes : null,
+      onLongPress: () => dispatch(getEaten(parseInt(calories / 3))),
     },
     {
       id: data ? data.meals[1].id : null,
@@ -31,6 +56,7 @@ export default function NutrionsFlatList({ navigation }) {
       image: require("../../../assets/imgs/lunch.png"),
       bg: colors.purple,
       time: data ? data.meals[1].readyInMinutes : null,
+      onLongPress: () => dispatch(getEaten(parseInt(calories / 3))),
     },
     {
       id: data ? data.meals[2].id : null,
@@ -40,6 +66,7 @@ export default function NutrionsFlatList({ navigation }) {
       image: require("../../../assets/imgs/dinner.png"),
       bg: colors.red,
       time: data ? data.meals[2].readyInMinutes : null,
+      onLongPress: () => dispatch(getEaten(parseInt(calories / 3))),
     },
   ];
   if (isLoading) return <Screen></Screen>;
@@ -62,6 +89,11 @@ export default function NutrionsFlatList({ navigation }) {
             onPress={() =>
               navigation.navigate("RecipeDetailsScreen", item.meals)
             }
+            onLongPress={() => {
+              item.onLongPress();
+              storeData(JSON.stringify(eat + eaten));
+              getKey().then((res) => console.log(res));
+            }}
           />
         )
       }

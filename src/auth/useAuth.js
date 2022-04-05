@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import jwtDecode from "jwt-decode";
-import AuthContext from "./context";
 import authStorage from "./storage";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserBoolean, getUserSuccess } from "../store/auth/userSlice";

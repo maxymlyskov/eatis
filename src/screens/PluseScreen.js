@@ -70,17 +70,6 @@ export default function PluseScreen({ navigation }) {
             padding: 20,
           }}
         >
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Add Nutrion</Text>
-          </View>
-
-          <View>
-            <Text style={[fonts.Bold18, { paddingVertical: 15 }]}>
-              Category
-            </Text>
-            <Category />
-          </View>
-
           <View style={{ paddingVertical: 20 }}>
             <AppForm initialValues={{ search: "" }}>
               <AppFormField

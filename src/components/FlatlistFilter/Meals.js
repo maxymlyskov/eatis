@@ -34,8 +34,11 @@ export default function Meals({ navigation }) {
       ];
     }
 
-    return array;
+    return array.filter(function (item, pos) {
+      return array.indexOf(item) == pos;
+    });
   }
+  // getting saved recipes from account
   const saved = useGetSearchedQuery({ refetchOnMountOrArgChange: true });
   useEffect(() => {
     if (saved.data) {
@@ -53,13 +56,11 @@ export default function Meals({ navigation }) {
   const secondRecipe = useFilterIncludeIngredientsQuery(title2, {
     refetchOnMountOrArgChange: true,
   });
-  // if (firstRecipe.data)
-  //   shuffle(firstRecipe.data.results.concat(secondRecipe.data.results));
   if (firstRecipe.isLoading && defaultRecipes.isLoading) return <View></View>;
 
   return (
     <View>
-      {firstRecipe.data.length > 1 && secondRecipe.data.length > 1 ? (
+      {firstRecipe.data && secondRecipe.data ? (
         <FlatList
           data={shuffle(
             firstRecipe.data.results.concat(secondRecipe.data.results)
