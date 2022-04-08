@@ -53,40 +53,45 @@ function EndingScreen(props) {
     }
   };
   return (
-    <View style={{flex: .5}}>
+    <View style={{flex: 1}}>
       <AppForm
         initialValues={{ email: "", password: "", name: "" }}
         validationSchema={validationSchema}
         onSubmit={handleRegister}
+        styles={{justifyContent: "space-between"}}
       >
-        <ErrorMessage
-          visible={loginFailed}
-          error="Invalid email or/and password"
-        />
+        <View style={{flex: 1, justifyContent: 'space-between'}}>
+          <View>
+            <ErrorMessage
+              visible={loginFailed}
+              error="Invalid email or/and password"
+            />
 
-        <AppFormField
-          placeholder="Username"
-          name="name"
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-        <AppFormField
-          placeholder="Email"
-          name="email"
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
+            <AppFormField
+              placeholder="Username"
+              name="name"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            <AppFormField
+              placeholder="Email"
+              name="email"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
 
-        <AppFormField
-          placeholder="Password"
-          name="password"
-          autoCapitalize="none"
-          autoCorrect={false}
-          secureTextEntry
-        />
-        
-        <View style={styles.submitButton}>
-          <SubmitButton title="Sign Up" />
+            <AppFormField
+              placeholder="Password"
+              name="password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              secureTextEntry
+            />
+          </View>
+          
+          <View style={styles.submitButton}>
+            <SubmitButton title="Sign Up" />
+          </View>
         </View>
       </AppForm>
     </View>
@@ -95,11 +100,7 @@ function EndingScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-
-  submitButton: {
-    marginTop: 50
+    flex: 1
   }
 });
 

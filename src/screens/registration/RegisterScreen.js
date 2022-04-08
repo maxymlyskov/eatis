@@ -68,21 +68,25 @@ function RegisterScreen() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
             return (
-              <View
-                style={{
-                  flex: 1,
-                  width: width,
-                  paddingHorizontal: 20,
-                }}
-              >
+              <View style={{ flex: 1, width: width, paddingHorizontal: 20 }}>
                 <View style={{ flex: 1, justifyContent: "space-around" }}>
-                  <View style={styles.textContainer}>
+                  <View style={[styles.textContainer, { flex: 0.2, justifyContent: 'center' }]}>
                     <Text style={[fonts.Bold24, styles.text]}>
                       {item.title}
                     </Text>
                   </View>
-                  {item.comp}
-                  <View style={styles.bottom}>
+
+                  {currentSlideIndex == slides.length - 1 ? (
+                    <View style={{ flex: 0.6, justifyContent: 'flex-start' }}>
+                      {item.comp}
+                    </View>
+                  ) : (
+                    <View style={{ flex: 0.6, justifyContent: 'center' }}>
+                      {item.comp}
+                    </View>
+                  )}
+
+                  <View style={[styles.bottom, { flex: 0.2, justifyContent: 'center' }]}>
                     <Text style={[fonts.Regular16, styles.bottomText]}>
                       We’ll use this to calculates and to create better
                       recomendations for you.
@@ -102,18 +106,22 @@ function RegisterScreen() {
         />
       </View>
 
-      <View style={styles.row}>
-        <View style={{ flex: 1 }}>
-          <TouchableWithoutFeedback onPress={goBack}>
-            <Text style={[fonts.Bold24, styles.backB]}>Back</Text>
-          </TouchableWithoutFeedback>
+      {currentSlideIndex == slides.length - 1 ? (
+        <></>
+      ):(
+        <View style={styles.row}>
+          <View style={{ flex: 1 }}>
+            <TouchableWithoutFeedback onPress={goBack}>
+              <Text style={[fonts.Bold24, styles.backB]}>Back</Text>
+            </TouchableWithoutFeedback>
+          </View>
+          <View style={{ flex: 2 }}>
+            <TouchableWithoutFeedback onPress={goToNextSlide}>
+              <Text style={[fonts.Bold24, styles.nextB]}>Next</Text>
+            </TouchableWithoutFeedback>
+          </View>
         </View>
-        <View style={{ flex: 2 }}>
-          <TouchableWithoutFeedback onPress={goToNextSlide}>
-            <Text style={[fonts.Bold24, styles.nextB]}>Next</Text>
-          </TouchableWithoutFeedback>
-        </View>
-      </View>
+      )}
     </Screen>
   );
 }

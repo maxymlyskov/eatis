@@ -12,20 +12,13 @@ function AppForm({
   styles,
 }) {
   return (
-    <View
-      style={[
-        {
-          flex: 1,
-        },
-        styles,
-      ]}
-    >
+    <View style={[styles, { flex: 1} ]}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {() => <>{children}</>}
+        {() => <>{ children }</>}
       </Formik>
     </View>
   );
