@@ -29,6 +29,7 @@ function AppNavigator(props) {
   const { user } = useSelector((state) => state);
 
   //checking expo storage to get key for auth
+  useEffect(() => {}, []);
 
   const restoreToken = async () => {
     const user = await authStorage.getUser();

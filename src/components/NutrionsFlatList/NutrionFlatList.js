@@ -91,7 +91,7 @@ export default function NutrionsFlatList({ navigation }) {
             }
             onLongPress={() => {
               item.onLongPress();
-              storeData(JSON.stringify(eat + eaten));
+              storeData(JSON.stringify(eaten + eat));
               getKey().then((res) => console.log(res));
             }}
           />

@@ -33,6 +33,15 @@ export const authApi = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
+    updateUser: builder.mutation({
+      query: (body) => ({
+        url: `users/${body.id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["Users"],
+    }),
   }),
 });
-export const { useAddAuthMutation, useAddUserMutation } = authApi;
+export const { useAddAuthMutation, useAddUserMutation, useUpdateUserMutation } =
+  authApi;

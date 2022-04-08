@@ -58,6 +58,12 @@ function RecipeDetailsScreen({ route, navigation }) {
   const infoIng = useGetInfoIngridientQuery(id);
   console.log(infoIng.data);
 
+  const getKey = async () => {
+    let eatenKey = await AsyncStorage.getItem("eatenKey");
+    let parsed = JSON.parse(eatenKey);
+    console.log(parsed);
+    return parsed;
+  };
   const storeData = async (value) => {
     try {
       await AsyncStorage.setItem("eatenKey", value);
@@ -69,6 +75,9 @@ function RecipeDetailsScreen({ route, navigation }) {
       // saving error
     }
   };
+  useEffect(() => {
+    getKey().then((res) => setEat(res));
+  }, []);
 
   // ref
   const bottomSheetRef = useRef(BottomSheet);

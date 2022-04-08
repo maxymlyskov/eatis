@@ -47,6 +47,7 @@ export const store = configureStore({
     [getSearched.reducerPath]: getSearched.reducer,
     // [searchFoodApi.reducerPath]: searchFoodApi.reducer,
   },
+
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,

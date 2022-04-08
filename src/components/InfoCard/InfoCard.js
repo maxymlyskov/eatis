@@ -14,6 +14,7 @@ export default function InfoCard() {
   const [eat, setEat] = useState(0);
   const [data, setData] = useState(0);
   const [check, setCheck] = useState(0);
+  const [checkDouble, setCheckDouble] = useState(0);
   const [color, setColor] = useState(colors.green);
 
   const { user } = useSelector((state) => state.user);
@@ -43,14 +44,26 @@ export default function InfoCard() {
       }
     });
   }, []);
-
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("eatenKey", JSON.stringify(value));
+      AsyncStorage.setItem("dataKey", JSON.stringify(new Date().getDate()));
+    } catch (e) {
+      // saving error
+      console.log(e);
+    }
+  };
   useEffect(() => {
     getKey().then((res) => setCheck(res));
   }, []);
   useEffect(() => {
     getKey().then((res) => {
-      if (check === res) setEat(res + eaten);
-      else {
+      if (check === res) {
+        setTimeout(() => {
+          storeData(res + eaten);
+        }, 100);
+        setEat(res + eaten);
+      } else {
         setEat(res);
       }
     });
