@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, TouchableWithoutFeedback, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LikeButton from "./LikeButton";
+import SaveButton from "./buttons/SaveButton";
 import AutoScrolling from "react-native-auto-scrolling";
 
 import colors from "../config/colors";
@@ -22,26 +23,27 @@ function Header({ navigation, formLike, onPress, text }) {
         />
       </TouchableWithoutFeedback>
       {/* <AutoScrolling style={{ flex: 1 }}> */}
-        <View
-          style={{
-            flex: 10,
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Text numberOfLines={1} style={styles.text}>
-            {text}
-          </Text>
-        </View>
+      <View
+        style={{
+          flex: 10,
+          alignItems: "center",
+          justifyContent: "flex-start",
+        }}
+      >
+        <Text numberOfLines={1} style={styles.text}>
+          {text}
+        </Text>
+      </View>
       {/* </AutoScrolling> */}
       {onPress ? (
         <View style={{ alignItems: "flex-end" }}>
-          <LikeButton
+          {/* <LikeButton
             color={colors.green}
             form={formLike}
             size={30}
             onPress={onPress}
-          />
+          /> */}
+          <SaveButton onPressAnimated={onPress} liked={formLike} />
         </View>
       ) : null}
     </View>

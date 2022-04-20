@@ -7,6 +7,8 @@ const initialState = {
   error: "",
   calories: null,
   eaten: 0,
+  weights: [],
+  notes: [],
 };
 
 const userSlice = createSlice({
@@ -26,8 +28,20 @@ const userSlice = createSlice({
     getEaten: (state, { payload }) => {
       state.eaten += payload;
     },
+    getWeights: (state, { payload }) => {
+      state.weights = payload;
+    },
+    getNotes: (state, { payload }) => {
+      state.notes = payload;
+    },
   },
 });
-export const { getUserSuccess, getUserBoolean, getCalories, getEaten } =
-  userSlice.actions;
+export const {
+  getUserSuccess,
+  getUserBoolean,
+  getCalories,
+  getEaten,
+  getWeights,
+  getNotes,
+} = userSlice.actions;
 export default userSlice.reducer;

@@ -6,8 +6,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { getBirthDate } from "../../store/auth/registerSlice";
+import { getUserSuccess } from "../../store/auth/userSlice";
 
-function BirthDateScreen(props) {
+function BirthDateScreen({ addittonalFunc }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
@@ -19,6 +20,7 @@ function BirthDateScreen(props) {
 
   const dispatch = useDispatch();
   const register = useSelector((state) => state.register.birthDate);
+  const { user } = useSelector((state) => state.user);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -41,6 +43,8 @@ function BirthDateScreen(props) {
     setMonth(month);
     setYear(year);
     dispatch(getBirthDate(tempDate));
+
+    if (addittonalFunc) addittonalFunc();
     console.log(register);
     console.log(fDate);
   };

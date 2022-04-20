@@ -14,14 +14,11 @@ function ActivityScreen({}) {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>Choose your activity</Text>
-        </View>
         <View style={{ padding: 10 }}>
           <AppButton
             title="Low"
             backgroundColor={color === "Low" ? colors.green : "white"}
-            borderColor={color === "Low" ? "white" : colors.black}
+            borderColor={color === "Low" ? "white" : colors.grey}
             color={color === "Low" ? "white" : colors.black}
             borderWidth={1}
             onPress={() => {
@@ -36,7 +33,7 @@ function ActivityScreen({}) {
             title="Below average"
             backgroundColor={color === "Below average" ? colors.green : "white"}
             borderWidth={1}
-            borderColor={color === "Below average" ? "white" : colors.black}
+            borderColor={color === "Below average" ? "white" : colors.grey}
             color={color === "Below average" ? "white" : colors.black}
             onPress={() => {
               dispatch(getActivity("Below average"));
@@ -50,7 +47,7 @@ function ActivityScreen({}) {
             title="Average"
             backgroundColor={color === "Average" ? colors.green : "white"}
             borderWidth={1}
-            borderColor={color === "Average" ? "white" : colors.black}
+            borderColor={color === "Average" ? "white" : colors.grey}
             color={color === "Average" ? "white" : colors.black}
             onPress={() => {
               dispatch(getActivity("Average"));
@@ -64,7 +61,7 @@ function ActivityScreen({}) {
             title="Above average"
             backgroundColor={color === "Above average" ? colors.green : "white"}
             borderWidth={1}
-            borderColor={color === "Above average" ? "white" : colors.black}
+            borderColor={color === "Above average" ? "white" : colors.grey}
             color={color === "Above average" ? "white" : colors.black}
             onPress={() => {
               dispatch(getActivity("Above average"));
@@ -78,7 +75,7 @@ function ActivityScreen({}) {
             title="High"
             backgroundColor={color === "High" ? colors.green : "white"}
             borderWidth={1}
-            borderColor={color === "High" ? "white" : colors.black}
+            borderColor={color === "High" ? "white" : colors.grey}
             color={color === "High" ? "white" : colors.black}
             onPress={() => {
               dispatch(getActivity("High"));
@@ -87,12 +84,6 @@ function ActivityScreen({}) {
             }}
           />
         </View>
-      </View>
-      <View style={styles.bottom}>
-        <Text style={styles.bottomText}>
-          We’ll use this to calculates and to create better recomendations for
-          you.
-        </Text>
       </View>
     </>
   );

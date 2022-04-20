@@ -8,23 +8,29 @@ function SettingsButton({ onPressAnimated }) {
   const animation = useRef(null);
   const isFirstRun = useRef(true);
 
-  useEffect(() => {
-    if (isFirstRun.current) {
-      if (isEaten) animation.current.play(30, 30);
-      animation.current.play(0, 0);
-      isFirstRun.current = false;
-    } else if (isEaten) {
-      animation.current.play(75, 0);
-    } else {
-      animation.current.play(0, 75);
-    }
-  }, [isEaten]);
+  // useEffect(() => {
+  //   if (isFirstRun.current) {
+  //     if (isEaten) animation.current.play(30, 30);
+  //     animation.current.play(0, 0);
+  //     isFirstRun.current = false;
+  //   } else if (isEaten) {
+  //     animation.current.play(75, 0);
+  //   } else {
+  //     animation.current.play(0, 75);
+  //   }
+  // }, [isEaten]);
   return (
     <TouchableOpacity
       onPress={() => {
         onPressAnimated();
 
-        setIsEaten(false);
+        if (isEaten) {
+          animation.current.play(75, 0);
+          setIsEaten(false);
+        } else {
+          animation.current.play(0, 75);
+          setIsEaten(true);
+        }
       }}
     >
       <LottieView

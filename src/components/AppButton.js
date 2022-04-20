@@ -24,14 +24,14 @@ function AppButton({
 
 const styles = StyleSheet.create({
   button: {
-    width: '100%',
+    width: "100%",
     backgroundColor: colors.green,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     padding: 15,
     paddingHorizontal: 25,
-  }
+  },
 });
 
 export default AppButton;

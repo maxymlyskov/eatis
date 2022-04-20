@@ -116,7 +116,9 @@ function AppNavigator(props) {
           name="Pluse"
           component={PluseStack}
           options={({ navigation }) => ({
-            tabBarButton: () => <PlusButton onPress={console.log("pluss")} />,
+            tabBarButton: () => (
+              <PlusButton onPress={() => navigation.navigate("Pluse")} />
+            ),
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 size={size}

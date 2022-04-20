@@ -6,7 +6,7 @@ export const getWeekPlanner = createApi({
   reducerPath: "getWeekPlanner",
   tagTypes: ["WeekPlanner"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://192.168.0.106:4000/api/weekPlanner",
+    baseUrl: "https://salty-sierra-90789.herokuapp.com/api/weekPlanner",
     prepareHeaders: async (headers) => {
       const token = await authStorage.getToken();
       console.log(token);

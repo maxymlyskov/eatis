@@ -11,10 +11,9 @@ function BottomButton({ onPressMake, onPressAnimated }) {
 
   useEffect(() => {
     if (isFirstRun.current) {
-      if (isEaten) animation.current.play(75, 75);
+      if (isEaten) animation.current.play(30, 30);
       animation.current.play(0, 0);
       isFirstRun.current = false;
-      setIsEaten(false);
     } else if (isEaten) {
       animation.current.play(75, 0);
     } else {

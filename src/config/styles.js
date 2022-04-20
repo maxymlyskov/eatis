@@ -13,7 +13,7 @@ export default {
   },
   ingridient: {
     fontFamily: "NunitoBold",
-    fontSize: 20,
+    fontSize: 23,
     color: colors.black,
   },
   additional: {

@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
+
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 import {
@@ -16,11 +17,9 @@ import {
   Animated,
   TouchableOpacity,
   Dimensions,
-  TouchableWithoutFeedback,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import RecipeCard from "../components/RecipeCard";
 import { useGetInfoIngridientQuery } from "../store/recipes/infoById/ingredientApi";
 import colors from "../config/colors";
 import Screen from "../components/Screen";
@@ -38,6 +37,8 @@ import AppButton from "../components/AppButton";
 import { imageURL } from "../store/constants";
 import BottomSheetHeader from "../components/BottomSheetHeader";
 import BottomButton from "../components/BottomButton";
+import ActivityIndicator from "../components/ActivityIndicator";
+import storage from "../auth/storage";
 
 function RecipeDetailsScreen({ route, navigation }) {
   const [eat, setEat] = useState(0);
@@ -118,208 +119,245 @@ function RecipeDetailsScreen({ route, navigation }) {
   // if (info.data.readyInMinutes > 45) difficulty = "hard";
   // let kcal = parseInt(nutrition.data.calories) * number;
   return (
-    <Screen style={styles.container}>
-      {info.data ? (
-        <>
-          <AnimatedHeader
-            animatedValue={offset}
-            img={info.data.image}
-            navigation={navigation}
-            onPress={() => handleAddRecipe(info.data)}
-            formLike
-          />
-          <Animated.ScrollView
-            style={{
-              flex: 1,
-              backgroundColor: colors.white,
-            }}
-            contentContainerStyle={{
-              paddingTop: HEADER_HEIGHT + 150,
-              paddingHorizontal: 10,
-            }}
-            showsVerticalScrollIndicator={false}
-            scrollEventThrottle={1}
-            overScrollMode={"never"}
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { y: offset } } }],
-              { useNativeDriver: false }
-            )}
-          >
-            <View>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text style={extraStyles.title}>{info.data.title}</Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    marginHorizontal: 40,
-                  }}
-                >
-                  <View style={{ flex: 2.5, flexDirection: "row" }}>
-                    <View style={{ paddingRight: 3 }}>
-                      <MaterialCommunityIcons
-                        name="clock-time-five-outline"
-                        color={colors.lightSilver}
-                        size={20}
-                      />
-                    </View>
-                    <Text style={extraStyles.additional}>
-                      {info.data.readyInMinutes} min
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2.7, flexDirection: "row" }}>
-                    <View style={{ paddingRight: 3 }}>
-                      <MaterialCommunityIcons
-                        name="fire"
-                        color={colors.lightSilver}
-                        size={20}
-                      />
-                    </View>
-                    {nutrition.data ? (
-                      <Text key={key + 1} style={extraStyles.additional}>
-                        {parseInt(nutrition.data.calories) * number} kcal
-                      </Text>
-                    ) : null}
-                  </View>
-                  <View style={{ flex: 1, flexDirection: "row" }}>
-                    <View style={{ paddingRight: 3 }}>
-                      <MaterialCommunityIcons
-                        name="chef-hat"
-                        color={colors.lightSilver}
-                        size={20}
-                      />
-                    </View>
-                    {info.data.readyInMinutes && (
-                      <Text style={extraStyles.additional}>
-                        {info.data.readyInMinutes > 30 ? "hard" : "easy"}
-                      </Text>
-                    )}
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View style={styles.number}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (number > 1) setNumber(() => --number);
-                  return;
-                }}
-              >
-                <View style={styles.numberLeft}>
-                  <Text style={{ fontSize: 50, color: "white" }}>-</Text>
-                </View>
-              </TouchableOpacity>
-              <View style={styles.numberText}>
-                <Text style={{ fontSize: 30, color: "white" }}>{number}</Text>
-                <Text style={{ fontSize: 12, color: "white" }}>Serving{s}</Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => {
-                  setNumber(() => ++number);
-                }}
-              >
-                <View style={styles.numberRight}>
-                  <Text style={{ fontSize: 40, color: "white" }}>+</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.ingridients}>
-              <Text style={extraStyles.ingridient}>{"\u25CF"} Ingridents</Text>
-            </View>
-
-            <FlatList
-              data={info.data.extendedIngredients}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <IngridientsCard
-                  title={item.original}
-                  image={imageURL + item.image}
-                  onPress={() =>
-                    // navigation.navigate("IngredientDetailsScreen", item.id)
-                    {
-                      handleSheetChanges(0);
-                      setIsOpen(true);
-                      setId(item.id);
-                      console.log(id);
-                    }
-                  }
-                />
-              )}
+    <>
+      <ActivityIndicator visible={info.isLoading} />
+      <Screen style={styles.container}>
+        {info.data ? (
+          <>
+            <AnimatedHeader
+              animatedValue={offset}
+              img={info.data.image}
+              navigation={navigation}
+              onPress={() => handleAddRecipe(info.data)}
+              formLike
+            />
+            <Animated.ScrollView
               style={{
-                borderWidth: 1,
-                borderColor: colors.lightSilver,
-                borderRadius: 20,
-                // padding: 10
+                flex: 1,
+                backgroundColor: colors.white,
               }}
               contentContainerStyle={{
-                marginTop: 20,
-                marginBottom: 20,
+                paddingTop: HEADER_HEIGHT + 150,
+                paddingHorizontal: 10,
               }}
-            />
-
-            <BottomButton
-              onPressAnimated={() => {
-                dispatch(getEaten(parseInt(nutrition.data.calories)));
-                storeData(JSON.stringify(eat + eaten));
-              }}
-              onPressMake={() =>
-                navigation.navigate("StepsScreen", info.data.id)
-              }
-            />
-          </Animated.ScrollView>
-        </>
-      ) : null}
-
-      <BottomSheet
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        enablePanDownToClose={true}
-        index={-1}
-        onClose={() => setIsOpen(false)}
-        style={{
-          borderColor: colors.grey,
-          borderTopStartRadius: 20,
-          borderTopEndRadius: 20,
-        }}
-      >
-        <BottomSheetHeader title="Details" onPress={() => handleClosePress()} />
-        {infoIng.data && (
-          <IngridientsCard
-            title={capitalizeFirstLetter(infoIng.data.name)}
-            preSubTitle={`${infoIng.data.amount} ${infoIng.data.unit}`}
-            image={imageURL + infoIng.data.image}
-            style={{ fontSize: 30 }}
-          />
-        )}
-        <BottomSheetScrollView>
-          <View>
-            {infoIng.data && (
-              <>
-                <FlatList
-                  data={infoIng.data.nutrition.nutrients}
-                  keyExtractor={(item, i) => i}
-                  renderItem={({ item }) => (
-                    <IngridientsCard
-                      title={item.name}
-                      subTitle={`${item.amount} ${item.unit}`}
-                    />
-                  )}
+              showsVerticalScrollIndicator={false}
+              scrollEventThrottle={1}
+              overScrollMode={"never"}
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { y: offset } } }],
+                { useNativeDriver: false }
+              )}
+            >
+              <View>
+                <View
                   style={{
-                    borderWidth: 1,
-                    borderColor: "white",
-                    borderRadius: 20,
-                    // padding: 10
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                  contentContainerStyle={{
-                    marginTop: 20,
-                    marginBottom: 20,
-                  }}
-                />
-              </>
+                >
+                  <Text style={extraStyles.title}>{info.data.title}</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      marginHorizontal: 40,
+                    }}
+                  >
+                    <View style={{ flex: 2.5, flexDirection: "row" }}>
+                      <View style={{ paddingRight: 3 }}>
+                        <MaterialCommunityIcons
+                          name="clock-time-five-outline"
+                          color={colors.lightSilver}
+                          size={20}
+                        />
+                      </View>
+                      <Text style={extraStyles.additional}>
+                        {info.data.readyInMinutes} min
+                      </Text>
+                    </View>
+                    <View style={{ flex: 2.7, flexDirection: "row" }}>
+                      <View style={{ paddingRight: 3 }}>
+                        <MaterialCommunityIcons
+                          name="fire"
+                          color={colors.lightSilver}
+                          size={20}
+                        />
+                      </View>
+                      {nutrition.data ? (
+                        <Text key={key + 1} style={extraStyles.additional}>
+                          {parseInt(nutrition.data.calories) * number} kcal
+                        </Text>
+                      ) : null}
+                    </View>
+                    <View style={{ flex: 1, flexDirection: "row" }}>
+                      <View style={{ paddingRight: 3 }}>
+                        <MaterialCommunityIcons
+                          name="chef-hat"
+                          color={colors.lightSilver}
+                          size={20}
+                        />
+                      </View>
+                      {info.data.readyInMinutes && (
+                        <Text style={extraStyles.additional}>
+                          {info.data.readyInMinutes > 30 ? "hard" : "easy"}
+                        </Text>
+                      )}
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.ingridients}>
+                <Text style={extraStyles.ingridient}>
+                  {"\u25CF"} Ingredients
+                </Text>
+                <View style={styles.number}>
+                  <View style={styles.numberText}>
+                    <Text style={{ fontSize: 20, color: "white" }}>
+                      {number}
+                    </Text>
+                    <Text style={{ fontSize: 10, color: "white" }}>
+                      Serving{s}
+                    </Text>
+                  </View>
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setNumber(() => ++number);
+                      }}
+                    >
+                      <View style={styles.numberRight}>
+                        <Text style={{ fontSize: 15, color: "white" }}>+</Text>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        if (number > 1) setNumber(() => --number);
+                        return;
+                      }}
+                    >
+                      <View style={styles.numberLeft}>
+                        <Text style={{ fontSize: 15, color: "white" }}>-</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+
+              <FlatList
+                data={info.data.extendedIngredients}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <IngridientsCard
+                    title={item.original}
+                    image={imageURL + item.image}
+                    onPress={() =>
+                      // navigation.navigate("IngredientDetailsScreen", item.id)
+                      {
+                        handleSheetChanges(0);
+                        setIsOpen(true);
+                        setId(item.id);
+                        console.log(id);
+                      }
+                    }
+                  />
+                )}
+                style={{
+                  borderWidth: 1,
+                  borderColor: colors.lightSilver,
+                  borderRadius: 20,
+                  // padding: 10
+                }}
+                contentContainerStyle={{
+                  marginTop: 20,
+                  marginBottom: 20,
+                }}
+              />
+
+              <BottomButton
+                onPressAnimated={() => {
+                  dispatch(getEaten(parseInt(nutrition.data.calories)));
+                  storage.storeEaten(eat + eaten);
+                }}
+                onPressMake={() =>
+                  navigation.navigate("StepsScreen", info.data.id)
+                }
+              />
+            </Animated.ScrollView>
+          </>
+        ) : null}
+
+        <BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={snapPoints}
+          enablePanDownToClose={true}
+          index={-1}
+          onClose={() => setIsOpen(false)}
+          style={{
+            borderColor: colors.grey,
+            borderTopStartRadius: 20,
+            borderTopEndRadius: 20,
+            borderWidth: 2,
+            overflow: "hidden",
+          }}
+          handleComponent={() => (
+            <View style={{ alignSelf: "center" }}>
+              <View
+                style={{
+                  width: 75,
+                  height: 4,
+                  borderRadius: 3,
+                  backgroundColor: colors.grey,
+                  marginTop: 9,
+                }}
+              ></View>
+            </View>
+          )}
+        >
+          <BottomSheetHeader
+            title="Details"
+            onPress={() => handleClosePress()}
+          />
+          <>
+            {infoIng.data && (
+              <IngridientsCard
+                title={capitalizeFirstLetter(infoIng.data.name)}
+                preSubTitle={`${infoIng.data.amount} ${infoIng.data.unit}`}
+                image={imageURL + infoIng.data.image}
+                style={{ fontSize: 30 }}
+              />
             )}
-          </View>
-        </BottomSheetScrollView>
-      </BottomSheet>
-    </Screen>
+            <BottomSheetScrollView>
+              <View>
+                {infoIng.data && (
+                  <>
+                    <FlatList
+                      data={infoIng.data.nutrition.nutrients}
+                      keyExtractor={(item, i) => i}
+                      renderItem={({ item }) => (
+                        <IngridientsCard
+                          title={item.name}
+                          subTitle={`${item.amount} ${item.unit}`}
+                        />
+                      )}
+                      style={{
+                        borderWidth: 1,
+                        borderColor: "white",
+                        borderRadius: 20,
+                        // padding: 10
+                      }}
+                      contentContainerStyle={{
+                        marginTop: 20,
+                        marginBottom: 20,
+                      }}
+                    />
+                  </>
+                )}
+              </View>
+            </BottomSheetScrollView>
+          </>
+        </BottomSheet>
+      </Screen>
+    </>
   );
 }
 
@@ -329,44 +367,49 @@ const styles = StyleSheet.create({
     height: 250,
   },
   number: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
     paddingVertical: 15,
+    flexDirection: "row",
   },
   numberText: {
     paddingHorizontal: 20,
-    height: 70,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
     borderRightColor: "white",
-    borderRightWidth: 2,
+    borderRightWidth: 1,
     borderLeftColor: "white",
     borderLeftWidth: 2,
-    width: 120,
+    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 10,
+    width: 100,
     backgroundColor: colors.green,
   },
   numberLeft: {
     backgroundColor: colors.green,
-    borderBottomLeftRadius: 15,
-    borderTopLeftRadius: 15,
-    height: 70,
-    width: 120,
+    borderBottomRightRadius: 10,
+    height: 25,
+    width: 40,
+
     justifyContent: "center",
     alignItems: "center",
   },
   numberRight: {
     backgroundColor: colors.green,
-    borderBottomRightRadius: 15,
-    borderTopRightRadius: 15,
-    height: 70,
-    width: 120,
+    borderBottomWidth: 1,
+    borderColor: "white",
+    borderTopRightRadius: 10,
+    height: 25,
+    width: 40,
     justifyContent: "center",
     alignItems: "center",
   },
   ingridients: {
-    paddingVertical: 10,
+    paddingVertical: 5,
+    paddingRight: 15,
     paddingLeft: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

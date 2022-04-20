@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, FlatList } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import CardItem from "./CardItem";
 
 import colors from "../../config/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { useFilterTargetCaloriesQuery } from "../../store/recipes/plannerApi";
-import { useGetRecipeInfoQuery } from "../../store/recipes/infoById/infoApi";
 import Screen from "../Screen";
 import { getEaten } from "../../store/auth/userSlice";
+import storage from "../../auth/storage";
+import ImageNoData from "../image/ImageNoData";
 
 export default function NutrionsFlatList({ navigation }) {
   const dispatch = useDispatch();
@@ -16,24 +16,8 @@ export default function NutrionsFlatList({ navigation }) {
   const eaten = useSelector((state) => state.user.eaten);
   const [eat, setEat] = useState(0);
 
-  const getKey = async () => {
-    let eatenKey = await AsyncStorage.getItem("eatenKey");
-    let parsed = JSON.parse(eatenKey);
-    console.log(parsed);
-    return parsed;
-  };
-  const storeData = async (value) => {
-    try {
-      AsyncStorage.setItem("eatenKey", value);
-      AsyncStorage.setItem("dataKey", JSON.stringify(new Date().getDate()));
-    } catch (e) {
-      // saving error
-      console.log(e);
-    }
-  };
-
   useEffect(() => {
-    getKey().then((res) => setEat(res));
+    storage.getEaten().then((res) => setEat(res));
   }, []);
   console.log(calories);
   const { data, isLoading } = useFilterTargetCaloriesQuery(parseInt(calories));
@@ -91,8 +75,7 @@ export default function NutrionsFlatList({ navigation }) {
             }
             onLongPress={() => {
               item.onLongPress();
-              storeData(JSON.stringify(eaten + eat));
-              getKey().then((res) => console.log(res));
+              storage.storeEaten(eaten + eat);
             }}
           />
         )
@@ -103,5 +86,7 @@ export default function NutrionsFlatList({ navigation }) {
       }}
       ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
     />
-  ) : null;
+  ) : (
+    <ImageNoData />
+  );
 }

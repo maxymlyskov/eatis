@@ -34,6 +34,8 @@ import {
   times,
   preferences,
 } from "../config/filters";
+import ActivityIndicator from "../components/ActivityIndicator";
+import ImageNoData from "../components/image/ImageNoData";
 
 function SearchScreen({ navigation }) {
   // state for searching
@@ -111,22 +113,31 @@ function SearchScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ flex: 12 }}>
-        {data ? (
-          <FlatList
-            data={data.results}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <RecipeCard
-                title={item.title}
-                onPress={() => navigation.navigate("RecipeDetailsScreen", item)}
-                image={{ uri: item.image }}
+      <>
+        <View style={{ flex: 12 }}>
+          {data ? (
+            <>
+              <ActivityIndicator visible={isLoading} />
+              <FlatList
+                data={data.results}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <RecipeCard
+                    title={item.title}
+                    onPress={() =>
+                      navigation.navigate("RecipeDetailsScreen", item)
+                    }
+                    image={{ uri: item.image }}
+                  />
+                )}
+                showsVerticalScrollIndicator={false}
               />
-            )}
-            showsVerticalScrollIndicator={false}
-          />
-        ) : null}
-      </View>
+            </>
+          ) : (
+            <ImageNoData />
+          )}
+        </View>
+      </>
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}
@@ -137,7 +148,22 @@ function SearchScreen({ navigation }) {
           borderColor: colors.grey,
           borderTopStartRadius: 20,
           borderTopEndRadius: 20,
+          borderWidth: 2,
+          overflow: "hidden",
         }}
+        handleComponent={() => (
+          <View style={{ alignSelf: "center" }}>
+            <View
+              style={{
+                width: 75,
+                height: 4,
+                borderRadius: 3,
+                backgroundColor: colors.grey,
+                marginTop: 9,
+              }}
+            ></View>
+          </View>
+        )}
       >
         <BottomSheetHeader
           title="Filters"
@@ -151,6 +177,7 @@ function SearchScreen({ navigation }) {
             setCalorie("");
             setTime("");
             setPreference("");
+            handleClosePress();
           }}
         />
         <BottomSheetScrollView>

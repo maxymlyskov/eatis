@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import { useSelector } from "react-redux";
 
 import RecipeCard from "../../components/RecipeCard";
+import ActivityIndicator from "../../components/ActivityIndicator";
 import {
   useFilterIncludeIngredientsQuery,
   useFilterMinCaloriesQuery,
@@ -14,7 +15,6 @@ export default function Meals({ navigation }) {
   const [title2, setTitle2] = useState("");
   const calories = useSelector((state) => state.user.calories);
   const defaultRecipes = useFilterMinCaloriesQuery(parseInt(calories / 4));
-  let meals = [];
   let titleFirst;
   let titleSecond;
   function shuffle(array) {
@@ -56,29 +56,16 @@ export default function Meals({ navigation }) {
   const secondRecipe = useFilterIncludeIngredientsQuery(title2, {
     refetchOnMountOrArgChange: true,
   });
-  if (firstRecipe.isLoading && defaultRecipes.isLoading) return <View></View>;
 
   return (
-    <View>
-      {firstRecipe.data && secondRecipe.data ? (
-        <FlatList
-          data={shuffle(
-            firstRecipe.data.results.concat(secondRecipe.data.results)
-          )}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <RecipeCard
-              title={item.title}
-              image={{ uri: item.image }}
-              onPress={() => navigation.navigate("RecipeDetailsScreen", item)}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-        />
-      ) : (
-        defaultRecipes.data && (
+    <>
+      <ActivityIndicator visible={!firstRecipe.data && !secondRecipe.data} />
+      <View>
+        {firstRecipe.data && secondRecipe.data ? (
           <FlatList
-            data={defaultRecipes.data.results}
+            data={shuffle(
+              firstRecipe.data.results.concat(secondRecipe.data.results)
+            )}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <RecipeCard
@@ -89,8 +76,25 @@ export default function Meals({ navigation }) {
             )}
             showsVerticalScrollIndicator={false}
           />
-        )
-      )}
-    </View>
+        ) : (
+          defaultRecipes.data && (
+            <FlatList
+              data={defaultRecipes.data.results}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <RecipeCard
+                  title={item.title}
+                  image={{ uri: item.image }}
+                  onPress={() =>
+                    navigation.navigate("RecipeDetailsScreen", item)
+                  }
+                />
+              )}
+              showsVerticalScrollIndicator={false}
+            />
+          )
+        )}
+      </View>
+    </>
   );
 }

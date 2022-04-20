@@ -5,7 +5,14 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import {
   AppFormField,
   AppForm,
@@ -17,35 +24,50 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Screen from "../components/Screen";
 import SettingsButton from "../components/SettingsButton";
-import BottomSheet, {
-  BottomSheetScrollView,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import ChevronButton from "../components/ChevronButton";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import sign from "jwt-encode";
 
 import colors from "../config/colors";
 import fonts from "../styles/fonts";
 import { useDispatch, useSelector } from "react-redux";
 import SettingChangeButtons from "../components/SettingChangeButtons";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useUpdateUserMutation } from "../store/auth/authApi";
-import { getUserSuccess } from "../store/auth/userSlice";
+import { getUserSuccess, getWeights } from "../store/auth/userSlice";
 import useAuth from "../auth/useAuth";
+import BirthDateScreen from "./registration/BirthDateScreen";
+import Graphics from "../components/Graphics";
+import authStorage from "../auth/storage";
 
 export default function ProfileScreen() {
-  const { user } = useSelector((state) => state.user);
+  let { user, weights } = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
-  const [color, setColor] = useState("");
+  const [opened, setOpened] = useState(false);
+  const [chevron, setChevron] = useState(false);
   const [first, setFirst] = useState(user.gender);
+  const [weightsCheck, setWeightCheck] = useState([]);
   const [second, setSecond] = useState(user.goal);
   const [third, setThird] = useState(user.activity);
-  const [fourth, setFourth] = useState("");
   const [updateUser] = useUpdateUserMutation();
   const dispatch = useDispatch();
+  const register = useSelector((state) => state.register.birthDate);
   const auth = useAuth();
-  console.log(user);
 
-  const handleUpdateUser = async (goal, weight, height, activity, gender) => {
+  useEffect(() => {
+    authStorage.getWeight().then((res) => {
+      dispatch(getWeights(res));
+    });
+  }, []);
+
+  const handleUpdateUser = async (
+    goal,
+    weight,
+    height,
+    activity,
+    gender,
+    name,
+    birthDate
+  ) => {
     try {
       await updateUser({
         id: user._id,
@@ -54,13 +76,14 @@ export default function ProfileScreen() {
         height: height ? height : user.height,
         activity: activity ? activity : user.activity,
         gender: gender ? gender : user.gender,
+        name: name ? name : user.name,
+        birthDate: birthDate ? birthDate : user.birthDate,
       }).unwrap();
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log(user.birthDate);
   const dateBorn = new Date(user.birthDate);
   const dateNow = new Date();
   const years = dateNow.getFullYear() - dateBorn.getFullYear();
@@ -68,6 +91,8 @@ export default function ProfileScreen() {
   const bottomSheetRef = useRef(BottomSheet);
   const bottomSheetRefHeight = useRef(BottomSheet);
   const bottomSheetRefWeight = useRef(BottomSheet);
+  const bottomSheetRefName = useRef(BottomSheet);
+  const bottomSheetRefBirthDate = useRef(BottomSheet);
 
   // variables
   const snapPoints = useMemo(() => ["89%", "95%"], []);
@@ -78,24 +103,36 @@ export default function ProfileScreen() {
     setTimeout(() => {
       bottomSheetRef.current?.snapToIndex(index);
     }, 800);
-    setIsOpen(true);
   }, []);
   const handleSheetChangesHeight = useCallback((index) => {
     bottomSheetRefHeight.current?.snapToIndex(index);
-    setIsOpen(true);
   }, []);
   const handleSheetChangesWeight = useCallback((index) => {
     bottomSheetRefWeight.current?.snapToIndex(index);
-    setIsOpen(true);
+  }, []);
+  const handleSheetChangesBirthDate = useCallback((index) => {
+    bottomSheetRefBirthDate.current?.snapToIndex(index);
+  }, []);
+  const handleSheetChangesName = useCallback((index) => {
+    setTimeout(() => {
+      bottomSheetRefName.current?.snapToIndex(index);
+    }, 500);
   }, []);
   const handleClosePress = useCallback(() => {
-    bottomSheetRef.current?.close();
+    setTimeout(() => {
+      bottomSheetRef.current?.close();
+    }, 1000);
   }, []);
   const handleClosePressHeight = useCallback(() => {
     bottomSheetRefHeight.current?.close();
   }, []);
   const handleClosePressWeight = useCallback(() => {
     bottomSheetRefWeight.current?.close();
+  }, []);
+  const handleClosePressName = useCallback(() => {
+    setTimeout(() => {
+      bottomSheetRefName.current?.close();
+    }, 500);
   }, []);
   const handleSetHeight = ({ height }) => {
     const userVar = {
@@ -113,33 +150,37 @@ export default function ProfileScreen() {
     dispatch(getUserSuccess(userVar));
     handleClosePressHeight();
     setTimeout(() => {
-      console.log(user);
       const newUser = sign(userVar, "jwtPrivateKey");
       auth.logIn(newUser);
-      handleUpdateUser(null, null, height, null, null);
+      handleUpdateUser(null, null, height, null, null, null, null);
     }, 1000);
   };
   const handleSetWeight = ({ weight }) => {
-    const userVar = {
-      _id: user._id,
-      activity: user.activity,
-      birthDate: user.birthDate,
-      email: user.email,
-      gender: user.gender,
-      goal: user.goal,
-      height: user.height,
-      iat: user.iat,
-      name: user.name,
-      weight: weight,
-    };
-    dispatch(getUserSuccess(userVar));
-    handleClosePressWeight();
     setTimeout(() => {
-      console.log(user);
+      const userVar = {
+        _id: user._id,
+        activity: user.activity,
+        birthDate: user.birthDate,
+        email: user.email,
+        gender: user.gender,
+        goal: user.goal,
+        height: user.height,
+        iat: user.iat,
+        name: user.name,
+        weight: weight,
+      };
+      dispatch(getUserSuccess(userVar));
       const newUser = sign(userVar, "jwtPrivateKey");
       auth.logIn(newUser);
-      handleUpdateUser(null, weight, null, null, null);
-    }, 1000);
+      handleUpdateUser(null, weight, null, null, null, null, null);
+    }, 100);
+    handleClosePressWeight();
+    let res = weights ? weights : [];
+    const result = res.concat([parseInt(weight)]);
+    dispatch(getWeights(result));
+    setTimeout(() => {
+      authStorage.storeWeight(result);
+    }, 800);
   };
   const handleSetGender = (gender) => {
     const userVar = {
@@ -157,10 +198,9 @@ export default function ProfileScreen() {
     dispatch(getUserSuccess(userVar));
     setFirst(gender);
     setTimeout(() => {
-      console.log(user);
       const newUser = sign(userVar, "jwtPrivateKey");
       auth.logIn(newUser);
-      handleUpdateUser(null, null, null, null, gender);
+      handleUpdateUser(null, null, null, null, gender, null, null);
     }, 1000);
   };
   const handleSetGoal = (goal) => {
@@ -179,10 +219,9 @@ export default function ProfileScreen() {
     dispatch(getUserSuccess(userVar));
     setSecond(goal);
     setTimeout(() => {
-      console.log(user);
       const newUser = sign(userVar, "jwtPrivateKey");
       auth.logIn(newUser);
-      handleUpdateUser(goal, null, null, null, null);
+      handleUpdateUser(goal, null, null, null, null, null, null);
     }, 1000);
   };
   const handleSetActivity = (activity) => {
@@ -201,10 +240,50 @@ export default function ProfileScreen() {
     dispatch(getUserSuccess(userVar));
     setThird(activity);
     setTimeout(() => {
-      console.log(user);
       const newUser = sign(userVar, "jwtPrivateKey");
       auth.logIn(newUser);
-      handleUpdateUser(null, null, null, activity, null);
+      handleUpdateUser(null, null, null, activity, null, null, null);
+    }, 1000);
+  };
+  const handleSetName = ({ name }) => {
+    const userVar = {
+      _id: user._id,
+      activity: user.activity,
+      birthDate: user.birthDate,
+      email: user.email,
+      gender: user.gender,
+      goal: user.goal,
+      height: user.height,
+      iat: user.iat,
+      name: name,
+      weight: user.weight,
+    };
+    dispatch(getUserSuccess(userVar));
+    handleClosePressName();
+    setTimeout(() => {
+      const newUser = sign(userVar, "jwtPrivateKey");
+      auth.logIn(newUser);
+      handleUpdateUser(null, null, null, null, null, name, null);
+    }, 1000);
+  };
+  const handleSetBirthDate = () => {
+    const userVar = {
+      _id: user._id,
+      activity: user.activity,
+      birthDate: register,
+      email: user.email,
+      gender: user.gender,
+      goal: user.goal,
+      height: user.height,
+      iat: user.iat,
+      name: user.name,
+      weight: user.weight,
+    };
+    dispatch(getUserSuccess(userVar));
+    setTimeout(() => {
+      const newUser = sign(userVar, "jwtPrivateKey");
+      auth.logIn(newUser);
+      handleUpdateUser(null, null, null, null, null, null, register);
     }, 1000);
   };
 
@@ -228,9 +307,22 @@ export default function ProfileScreen() {
         >
           <SettingsButton
             onPressAnimated={() => {
-              handleSheetChanges(0);
+              if (!opened) {
+                handleSheetChanges(0);
+                setOpened(true);
+              } else {
+                handleClosePress();
+                setOpened(false);
+              }
             }}
           />
+          <TouchableOpacity
+            onPress={() => {
+              auth.logOut();
+            }}
+          >
+            <MaterialCommunityIcons size={22} color="white" name="logout" />
+          </TouchableOpacity>
         </View>
 
         <View
@@ -281,10 +373,16 @@ export default function ProfileScreen() {
                 }}
               >
                 <Text style={fonts.Bold24}>{user.name}</Text>
-                <MaterialCommunityIcons
-                  size={24}
-                  name="chevron-down"
-                  color={"#000"}
+                <ChevronButton
+                  onPressAnimated={() => {
+                    if (chevron) {
+                      handleClosePressName();
+                      setChevron(false);
+                    } else {
+                      handleSheetChangesName(0);
+                      setChevron(true);
+                    }
+                  }}
                 />
               </View>
 
@@ -310,23 +408,27 @@ export default function ProfileScreen() {
                   </TouchableOpacity>
                 </View>
               </View>
-
-              <View
-                style={{
-                  height: 275,
-                  backgroundColor: "#fff",
-                  shadowColor: "#000",
-                  elevation: 20,
-                  borderRadius: 20,
-                  marginVertical: 20,
-                  shadowOpacity: 0.2,
-                }}
-              />
+              <Graphics dataFor={weights.length > 1 ? weights : [74, 75]} />
 
               <View>
-                <Text style={[fonts.Bold24, { marginVertical: 20 }]}>
-                  Details
-                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={[fonts.Bold24, { marginVertical: 20 }]}>
+                    Details
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleSheetChangesBirthDate(0);
+                    }}
+                  >
+                    <MaterialCommunityIcons name="calendar-edit" size={30} />
+                  </TouchableOpacity>
+                </View>
 
                 {data.map((_, i) => {
                   return (
@@ -347,12 +449,14 @@ export default function ProfileScreen() {
           </View>
         </View>
       </ScrollView>
+
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}
         snapPoints={snapPoints}
-        enablePanDownToClose={true}
-        onClose={() => setIsOpen(false)}
+        enablePanDownToClose={false}
+        enableGestureHandlerInteraction={true}
+        onChange={handleSheetChanges}
         style={{
           borderColor: colors.grey,
           borderTopStartRadius: 20,
@@ -472,7 +576,6 @@ export default function ProfileScreen() {
         index={-1}
         snapPoints={snapPointsHeight}
         enablePanDownToClose={true}
-        onClose={() => setIsOpen(false)}
         style={{
           borderColor: colors.grey,
           borderTopStartRadius: 20,
@@ -551,6 +654,94 @@ export default function ProfileScreen() {
               <SubmitButton title="Change" />
             </View>
           </AppForm>
+        </BottomSheetView>
+      </BottomSheet>
+      <BottomSheet
+        ref={bottomSheetRefName}
+        index={-1}
+        snapPoints={snapPointsHeight}
+        enablePanDownToClose={false}
+        style={{
+          borderColor: colors.grey,
+          borderTopStartRadius: 20,
+          borderTopEndRadius: 20,
+          borderWidth: 1,
+          overflow: "hidden",
+        }}
+        handleComponent={() => (
+          <View style={{ alignSelf: "center" }}>
+            <View
+              style={{
+                width: 75,
+                height: 4,
+                borderRadius: 3,
+                backgroundColor: colors.grey,
+                marginTop: 9,
+              }}
+            ></View>
+          </View>
+        )}
+      >
+        <BottomSheetView
+          style={{ flex: 1, width: "70%", alignSelf: "center", marginTop: 20 }}
+        >
+          <AppForm initialValues={{ name: "" }} onSubmit={handleSetName}>
+            <AppFormField
+              placeholder="Username"
+              name="name"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            <View style={{ marginTop: 20 }}>
+              <SubmitButton title="Change" />
+            </View>
+          </AppForm>
+        </BottomSheetView>
+      </BottomSheet>
+      <BottomSheet
+        ref={bottomSheetRefBirthDate}
+        index={-1}
+        snapPoints={snapPointsHeight}
+        enablePanDownToClose={true}
+        onClose={() => setIsOpen(false)}
+        style={{
+          borderColor: colors.grey,
+          borderTopStartRadius: 20,
+          borderTopEndRadius: 20,
+          borderWidth: 1,
+          overflow: "hidden",
+        }}
+        handleComponent={() => (
+          <View style={{ alignSelf: "center" }}>
+            <View
+              style={{
+                width: 75,
+                height: 4,
+                borderRadius: 3,
+                backgroundColor: colors.grey,
+                marginTop: 9,
+              }}
+            ></View>
+          </View>
+        )}
+      >
+        <BottomSheetView style={{ marginTop: 70, marginHorizontal: 20 }}>
+          <BirthDateScreen
+            addittonalFunc={async () => {
+              await handleSetBirthDate();
+            }}
+          />
+          <View style={{ marginTop: 70, alignSelf: "center" }}>
+            <Text
+              style={{
+                fontFamily: "NunitoRegular",
+                fontSize: 16,
+                color: colors.green,
+              }}
+            >
+              Changes will automaticly set on your account
+            </Text>
+          </View>
         </BottomSheetView>
       </BottomSheet>
     </Screen>

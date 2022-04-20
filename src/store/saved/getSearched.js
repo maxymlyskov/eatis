@@ -6,7 +6,7 @@ export const getSearched = createApi({
   reducerPath: "getSearched",
   tagTypes: ["Recipes"],
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://192.168.0.106:4000/api/recipeSearch`,
+    baseUrl: `https://salty-sierra-90789.herokuapp.com/api/recipeSearch`,
     prepareHeaders: async (headers) => {
       const token = await authStorage.getToken();
       console.log(token);

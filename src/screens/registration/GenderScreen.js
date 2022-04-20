@@ -17,7 +17,7 @@ function GenderScreen(props) {
           <AppButton
             title="Male"
             backgroundColor={color === "Male" ? colors.green : "white"}
-            borderColor={color === "Male" ? "white" : colors.black}
+            borderColor={color === "Male" ? "white" : colors.grey}
             color={color === "Male" ? "white" : colors.black}
             borderWidth={1}
             onPress={() => {
@@ -31,7 +31,7 @@ function GenderScreen(props) {
           <AppButton
             title="Female"
             backgroundColor={color === "Female" ? colors.green : "white"}
-            borderColor={color === "Female" ? "white" : colors.black}
+            borderColor={color === "Female" ? "white" : colors.grey}
             color={color === "Female" ? "white" : colors.black}
             borderWidth={1}
             onPress={() => {

@@ -1,66 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import CircularProgress from "react-native-circular-progress-indicator";
 import InfoItem from "./InfoItem";
 import LeftStatistic from "./LeftStatistic";
 import { useDispatch, useSelector } from "react-redux";
-import { getCalories } from "../../store/auth/userSlice";
+import { getCalories, getEaten } from "../../store/auth/userSlice";
 
 import colors from "../../config/colors";
 import fonts from "../../styles/fonts";
+import storage from "../../auth/storage";
 
 export default function InfoCard() {
   const [eat, setEat] = useState(0);
   const [data, setData] = useState(0);
   const [check, setCheck] = useState(0);
-  const [checkDouble, setCheckDouble] = useState(0);
   const [color, setColor] = useState(colors.green);
 
   const { user } = useSelector((state) => state.user);
   const eaten = useSelector((state) => state.user.eaten);
 
-  const getKey = async () => {
-    let eatenKey = await AsyncStorage.getItem("eatenKey");
-    let dataKey = await AsyncStorage.getItem("dataKey");
-    let parsed = JSON.parse(eatenKey);
-    let parsedData = JSON.parse(dataKey);
-    console.log(parsedData);
-    return parsed;
-  };
-  const getData = async () => {
-    let dataKey = await AsyncStorage.getItem("dataKey");
-    let parsedData = JSON.parse(dataKey);
-    console.log(parsedData);
-    return parsedData;
-  };
-  useEffect(async () => {
-    getData().then(async (res) => {
+  useEffect(() => {
+    storage.getData().then(async (res) => {
       setData(res);
       const dataNow = new Date().getDate();
+      console.log(res);
       if (dataNow != res) {
-        await AsyncStorage.removeItem("eatenKey");
+        await storage.storeEaten(0);
+        dispatch(getEaten(0));
         console.log(data);
       }
     });
   }, []);
-  const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem("eatenKey", JSON.stringify(value));
-      AsyncStorage.setItem("dataKey", JSON.stringify(new Date().getDate()));
-    } catch (e) {
-      // saving error
-      console.log(e);
-    }
-  };
+
   useEffect(() => {
-    getKey().then((res) => setCheck(res));
+    storage.getEaten().then((res) => setCheck(res));
   }, []);
   useEffect(() => {
-    getKey().then((res) => {
+    storage.getEaten().then((res) => {
       if (check === res) {
         setTimeout(() => {
-          storeData(res + eaten);
+          storage.storeEaten(res + eaten);
         }, 100);
         setEat(res + eaten);
       } else {
@@ -253,8 +232,8 @@ export default function InfoCard() {
           <View style={{ flex: 1 }}>
             <InfoItem
               title={"Protein"}
-              max={parseInt(BMR * 0.075)}
-              eaten={parseInt(eat * 0.075)}
+              max={parseInt(BMR * 0.04)}
+              eaten={parseInt(eat * 0.04)}
               backgroundColor={color}
               borderColor={color}
             />
@@ -262,10 +241,10 @@ export default function InfoCard() {
           <View style={{ flex: 1, marginHorizontal: 30 }}>
             <InfoItem
               title={"Carbs"}
-              max={parseInt(BMR * 0.08)}
+              max={parseInt(BMR * 0.06)}
               backgroundColor={color}
               borderColor={color}
-              eaten={parseInt(eat * 0.08)}
+              eaten={parseInt(eat * 0.06)}
             />
           </View>
           <View style={{ flex: 1 }}>
@@ -273,14 +252,13 @@ export default function InfoCard() {
               title={"Fat"}
               backgroundColor={color}
               borderColor={color}
-              max={parseInt(BMR * 0.02)}
-              eaten={parseInt(eat * 0.02)}
+              max={parseInt(BMR * 0.015)}
+              eaten={parseInt(eat * 0.015)}
             />
           </View>
         </View>
       </View>
 
-      {/* shadow */}
       <View
         style={{
           position: "absolute",

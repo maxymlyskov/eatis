@@ -8,6 +8,7 @@ import {
   useAddDayPlannerMutation,
   useDeleteDayPlannerMutation,
 } from "../store/saved/getDayPlanner";
+import ImageNoData from "../components/image/ImageNoData";
 
 function DayPlannerScreen({ route, navigation }) {
   const recipes = route.params.data;
@@ -86,6 +87,7 @@ function DayPlannerScreen({ route, navigation }) {
                 />
               )}
             />
+            <ImageNoData />
           </View>
         </>
       )}

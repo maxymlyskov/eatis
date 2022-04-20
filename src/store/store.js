@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginSlice from "./auth/loginSlice";
 import userSlice from "./auth/userSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { searchApi } from "./recipes/searchApi";
@@ -8,30 +7,25 @@ import { ingredientApi } from "./recipes/infoById/ingredientApi";
 import { plannerApi } from "./recipes/plannerApi";
 import { infoApi } from "./recipes/infoById/infoApi";
 import { nutritionApi } from "./recipes/infoById/nutritionApi";
-import { priceApi } from "./recipes/infoById/priceApi";
 import { randomApi } from "./recipes/randomApi";
 import { similarApi } from "./recipes/infoById/similarApi";
-import { tasteApi } from "./recipes/infoById/tasteApi";
 import { optionalApi } from "./recipes/optional/optionalApi";
 import { getSearched } from "./saved/getSearched";
-import { searchFoodApi } from "./recipes/misc/searchFoodApi";
 import { analyzedInstructionsApi } from "./recipes/infoById/analyzedInstructionsApi";
 import { getDayPlanner } from "./saved/getDayPlanner";
 import { getWeekPlanner } from "./saved/getWeekPlanner";
-import authSlice from "./auth/authSlice";
 import registerSlice from "./auth/registerSlice";
 import { authApi } from "./auth/authApi";
+import { resetApi } from "./auth/resetApi";
 
 export const store = configureStore({
   reducer: {
-    // login: loginSlice,
     register: registerSlice,
     user: userSlice,
-    userAuth: authSlice,
     [authApi.reducerPath]: authApi.reducer,
+    [resetApi.reducerPath]: resetApi.reducer,
     [searchApi.reducerPath]: searchApi.reducer,
     [ingredientsSearchApi.reducerPath]: ingredientsSearchApi.reducer,
-    // [plannerApi.reducerPath]: plannerApi.reducer,
     [getDayPlanner.reducerPath]: getDayPlanner.reducer,
     [getWeekPlanner.reducerPath]: getWeekPlanner.reducer,
     [randomApi.reducerPath]: randomApi.reducer,
@@ -39,13 +33,10 @@ export const store = configureStore({
     [nutritionApi.reducerPath]: nutritionApi.reducer,
     [ingredientApi.reducerPath]: ingredientApi.reducer,
     [analyzedInstructionsApi.reducerPath]: analyzedInstructionsApi.reducer,
-    // [priceApi.reducerPath]: priceApi.reducer,
     [similarApi.reducerPath]: similarApi.reducer,
-    // [tasteApi.reducerPath]: tasteApi.reducer,
     [optionalApi.reducerPath]: optionalApi.reducer,
     [plannerApi.reducerPath]: plannerApi.reducer,
     [getSearched.reducerPath]: getSearched.reducer,
-    // [searchFoodApi.reducerPath]: searchFoodApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
@@ -65,6 +56,7 @@ export const store = configureStore({
       .concat(getWeekPlanner.middleware)
       .concat(ingredientsSearchApi.middleware)
       .concat(authApi.middleware)
+      .concat(resetApi.middleware)
       .concat(ingredientApi.middleware)
       .concat(similarApi.middleware),
 });

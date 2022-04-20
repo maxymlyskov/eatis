@@ -12,7 +12,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
-import LikeButton from "./LikeButton";
+import SaveButton from "../components/buttons/SaveButton";
 
 // const HEADER_HEIGHT = 200;
 const { width, height } = Dimensions.get("window");
@@ -75,12 +75,7 @@ export default function AnimatedHeader({
         ></View>
         {onPress ? (
           <View style={{ flex: 1, alignItems: "flex-end" }}>
-            <LikeButton
-              color="white"
-              form={formLike}
-              size={30}
-              onPress={onPress}
-            />
+            <SaveButton onPressAnimated={onPress} />
           </View>
         ) : null}
       </View>

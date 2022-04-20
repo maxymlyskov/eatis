@@ -9,8 +9,11 @@ import {
   SubmitButton,
 } from "../components/forms";
 import Screen from "../components/Screen";
-import colors from "../config/colors";
 import { useAddAuthMutation } from "../store/auth/authApi";
+
+import colors from "../config/colors";
+import fonts from "../styles/fonts";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 // email and password validation
 const validationSchema = Yup.object().shape({
@@ -18,11 +21,11 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(4).label("Password").nullable(),
 });
 
-function LoginScreen(props) {
+function LoginScreen({ navigation }) {
   const auth = useAuth();
 
   const [loginFailed, setLoginFailed] = useState(false);
-  const [addAuth] = useAddAuthMutation();
+  const [addAuth, { isSuccess }] = useAddAuthMutation();
 
   const handleLogin = async ({ email, password }) => {
     try {
@@ -36,83 +39,81 @@ function LoginScreen(props) {
     } catch (error) {
       console.log(error);
     }
+    if (!isSuccess) setLoginFailed(true);
   };
 
   return (
     <Screen style={styles.container}>
       <View style={styles.text}>
-        <Text style={styles.signinText}>Sign In</Text>
+        <Text style={fonts.Bold24}>Sign In</Text>
         <View style={styles.credits}>
-          <Text style={styles.creditsText}>Enter your credits to continue</Text>
+          <Text style={[fonts.Regular16, { color: colors.grey }]}>
+            Enter your credits to continue
+          </Text>
+        </View>
+        <View style={styles.reset}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("TryResetScreen")}
+          >
+            <Text style={[fonts.Regular14, { color: colors.sgreen }]}>
+              Forgot your password?
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
-      <AppForm
-        initialValues={{ email: "", password: "" }}
-        validationSchema={validationSchema}
-        onSubmit={handleLogin}
-      >
-        <ErrorMessage
-          visible={loginFailed}
-          error="Invalid email or/and password"
-        />
+      <View style={{ flex: 0.8 }}>
+        <AppForm
+          initialValues={{ email: "", password: "" }}
+          validationSchema={validationSchema}
+          onSubmit={handleLogin}
+        >
+          <View style={{ flex: 1, justifyContent: "space-between" }}>
+            <View>
+              <View style={{ marginHorizontal: 30 }}>
+                <ErrorMessage
+                  visible={loginFailed}
+                  error="Invalid email or/and password"
+                />
+              </View>
+              <AppFormField
+                placeholder="Email"
+                name="email"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
 
-        <AppFormField
-          placeholder="Email"
-          name="email"
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-
-        <AppFormField
-          placeholder="Password"
-          name="password"
-          autoCapitalize="none"
-          autoCorrect={false}
-          secureTextEntry
-        />
-        <View style={styles.button}>
-          <SubmitButton title="Log In" />
-        </View>
-      </AppForm>
+              <AppFormField
+                placeholder="Password"
+                name="password"
+                autoCapitalize="none"
+                autoCorrect={false}
+                secureTextEntry
+              />
+            </View>
+            <View>
+              <SubmitButton title="Log In" />
+            </View>
+          </View>
+        </AppForm>
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 200,
-    paddingHorizontal: 10,
-    justifyContent: "center",
     flex: 1,
-  },
-  logo: {
-    alignSelf: "center",
-    marginTop: 50,
-    marginBottom: 20,
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
-  button: {
     paddingHorizontal: 20,
-    marginTop: Dimensions.get("window").height / 10,
+    paddingBottom: 20,
   },
-  signinText: {
-    fontSize: 25,
-    fontFamily: "NunitoBold",
-  },
-  creditsText: {
-    fontSize: 15,
-    color: colors.grey,
-    fontFamily: "NunitoBold",
-  },
+
   text: {
-    marginTop: -35,
-    marginBottom: 30,
-    marginHorizontal: 20,
+    flex: 0.2,
+    justifyContent: "center",
   },
-  credits: {
-    marginVertical: 4,
+  reset: {
+    marginLeft: "auto",
+    marginTop: 10,
   },
 });
 

@@ -10,6 +10,7 @@ import {
 } from "../../components/forms";
 import { useDispatch, useSelector } from "react-redux";
 import { getWeight } from "../../store/auth/registerSlice";
+import { getWeights } from "../../store/auth/userSlice";
 
 function WeightScreen(props) {
   const [weight, setWeight] = useState("");
@@ -17,7 +18,7 @@ function WeightScreen(props) {
   const dispatch = useDispatch();
   const register = useSelector((state) => state.register.weight);
   return (
-    <View style={{flex: 0.2}}>
+    <View style={{ flex: 0.3 }}>
       <AppForm
         initialValues={{ weight: "" }}
         onSubmit={() => console.log("dsa")}
@@ -32,7 +33,7 @@ function WeightScreen(props) {
           onChangeText={(text) => {
             setWeight(text);
             dispatch(getWeight(text));
-            console.log(register);
+            dispatch(getWeights([text]));
           }}
           onSubmitEditing={console.log(weight)}
         />

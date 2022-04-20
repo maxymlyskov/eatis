@@ -20,11 +20,12 @@ import {
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email").nullable(),
   password: Yup.string().required().min(4).label("Password").nullable(),
+  password: Yup.string().required().min(4).label("Username").nullable(),
 });
 
 function EndingScreen(props) {
   const [loginFailed, setLoginFailed] = useState(false);
-  const [addUser] = useAddUserMutation();
+  const [addUser, { isSuccess }] = useAddUserMutation();
   const [addAuth] = useAddAuthMutation();
   const auth = useAuth();
 
@@ -51,42 +52,48 @@ function EndingScreen(props) {
     } catch (error) {
       console.log(error);
     }
+    if (!isSuccess) setLoginFailed(true);
   };
   return (
-    <View style={{flex: .5}}>
+    <View style={{ flex: 1 }}>
       <AppForm
         initialValues={{ email: "", password: "", name: "" }}
         validationSchema={validationSchema}
         onSubmit={handleRegister}
+        styles={{ justifyContent: "space-between" }}
       >
-        <ErrorMessage
-          visible={loginFailed}
-          error="Invalid email or/and password"
-        />
+        <View style={{ flex: 1, justifyContent: "space-between" }}>
+          <View>
+            <ErrorMessage
+              visible={loginFailed}
+              error="User have already registered"
+            />
 
-        <AppFormField
-          placeholder="Username"
-          name="name"
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-        <AppFormField
-          placeholder="Email"
-          name="email"
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
+            <AppFormField
+              placeholder="Username"
+              name="name"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            <AppFormField
+              placeholder="Email"
+              name="email"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
 
-        <AppFormField
-          placeholder="Password"
-          name="password"
-          autoCapitalize="none"
-          autoCorrect={false}
-          secureTextEntry
-        />
-        
-        <View style={styles.submitButton}>
-          <SubmitButton title="Sign Up" />
+            <AppFormField
+              placeholder="Password"
+              name="password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              secureTextEntry
+            />
+          </View>
+
+          <View style={styles.submitButton}>
+            <SubmitButton title="Sign Up" />
+          </View>
         </View>
       </AppForm>
     </View>
@@ -97,10 +104,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
-  submitButton: {
-    marginTop: 50
-  }
 });
 
 export default EndingScreen;

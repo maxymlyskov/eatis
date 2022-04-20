@@ -19,7 +19,7 @@ function HeightScreen(props) {
   const dispatch = useDispatch();
   const register = useSelector((state) => state.register.height);
   return (
-    <View style={{flex: 0.2}}>
+    <View style={{ flex: 0.3 }}>
       <AppForm
         initialValues={{ height: "" }}
         onSubmit={() => console.log("dsa")}

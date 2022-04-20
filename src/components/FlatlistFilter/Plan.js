@@ -5,6 +5,7 @@ import { useGetDayPlannerQuery } from "../../store/recipes/plannerApi";
 
 import RecipeCard from "../../components/RecipeCard";
 import { useSelector } from "react-redux";
+import ActivityIndicator from "../ActivityIndicator";
 
 export default function Plan({ navigation }) {
   const calories = useSelector((state) => state.user.calories);
@@ -107,19 +108,21 @@ export default function Plan({ navigation }) {
   ];
 
   return (
-    <View>
-      <FlatList
-        data={diets}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => (
-          <RecipeCard
-            image={{ uri: item.image }}
-            title={item.title}
-            onPress={() => navigation.navigate("DayPlannerScreen", item)}
-          />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    <>
+      <View>
+        <FlatList
+          data={diets}
+          keyExtractor={(item, index) => item + index}
+          renderItem={({ item }) => (
+            <RecipeCard
+              image={{ uri: item.image }}
+              title={item.title}
+              onPress={() => navigation.navigate("DayPlannerScreen", item)}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+    </>
   );
 }

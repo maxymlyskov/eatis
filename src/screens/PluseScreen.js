@@ -133,7 +133,22 @@ export default function PluseScreen({ navigation }) {
           borderColor: colors.grey,
           borderTopStartRadius: 20,
           borderTopEndRadius: 20,
+          borderWidth: 2,
+          overflow: "hidden",
         }}
+        handleComponent={() => (
+          <View style={{ alignSelf: "center" }}>
+            <View
+              style={{
+                width: 75,
+                height: 4,
+                borderRadius: 3,
+                backgroundColor: colors.grey,
+                marginTop: 9,
+              }}
+            ></View>
+          </View>
+        )}
       >
         <BottomSheetHeader title="Details" onPress={() => handleClosePress()} />
         {info.data && (
