@@ -4,7 +4,7 @@ export const resetApi = createApi({
   reducerPath: "reset",
   tagTypes: ["Reset"],
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://192.168.0.108:4000/api`,
+    baseUrl: `https://salty-sierra-90789.herokuapp.com/api`,
   }),
   endpoints: (builder) => ({
     tryReset: builder.mutation({

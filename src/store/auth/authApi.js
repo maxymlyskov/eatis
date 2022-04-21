@@ -5,10 +5,9 @@ export const authApi = createApi({
   reducerPath: "getAuth",
   tagTypes: ["Users"],
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://192.168.0.108:4000/api`,
+    baseUrl: `http://salty-sierra-90789.herokuapp.com/api`,
   }),
   endpoints: (builder) => ({
-
     addAuth: builder.mutation({
       query: (body) => ({
         url: "/auth",
